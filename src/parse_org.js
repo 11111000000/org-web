@@ -64,6 +64,11 @@ export const parseLinks = (description) => {
   return descriptionParts;
 };
 
+const defaultKeywordSets = [{
+  keywords: ['TODO', 'DONE'],
+  default: true
+}];
+
 export const parseTitleLine = (titleLine, todoKeywordSets) => {
   const allKeywords = [].concat.apply([], todoKeywordSets.map(todoKeywordSet => {
     return todoKeywordSet.keywords;
@@ -79,6 +84,10 @@ export const parseTitleLine = (titleLine, todoKeywordSets) => {
 };
 
 export const newHeaderWithTitle = (line, nestingLevel, todoKeywordSets) => {
+  if (todoKeywordSets.length === 0) {
+    todoKeywordSets = defaultKeywordSets;
+  }
+
   const titleLine = parseTitleLine(line, todoKeywordSets);
   return {
     titleLine,
@@ -131,12 +140,8 @@ const parseOrg = (fileContents) => {
     }
   });
 
-  const defaultTodoKeywords = ['TODO', 'DONE'];
   if (todoKeywordSets.length === 0) {
-    todoKeywordSets = [{
-      keywords: defaultTodoKeywords,
-      default: true
-    }];
+    todoKeywordSets = defaultKeywordSets;
   }
 
   headers.forEach(header => {
