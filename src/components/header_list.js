@@ -44,7 +44,7 @@ class HeaderList extends Component {
         description: header.description,
         rawDescription: header.rawDescription,
         selected: isSelected,
-        opened: header.opened,
+        opened: header.opened || inDescriptionEditMode,
         titleEditMode: inTitleEditMode,
         descriptionEditMode: inDescriptionEditMode,
         hasContent: !!header.rawDescription
