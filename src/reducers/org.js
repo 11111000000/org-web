@@ -147,7 +147,8 @@ const addHeader = (state, payload) => {
   const subheaders = subheadersOfHeaderWithId(headers, payload.headerId);
 
   const newHeader = Immutable.fromJS(parseOrg.newHeaderWithTitle('',
-                                                                 header.get('nestingLevel')));
+                                                                 header.get('nestingLevel'),
+                                                                 state.get('todoKeywordSets').toJS()));
 
   return state.update('headers',
                       headers => headers.insert(headerIndex + subheaders.size + 1, newHeader));
