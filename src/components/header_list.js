@@ -12,9 +12,9 @@ class HeaderList extends Component {
     this.headerRefs = {};
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     // Ensure that the currently selected header is in view.
-    const selectedHeaderDiv = this.headerRefs[this.props.selectedHeaderId];
+    const selectedHeaderDiv = this.headerRefs[nextProps.selectedHeaderId];
     if (selectedHeaderDiv) {
       const boundingRectangle = selectedHeaderDiv.getBoundingClientRect();
       const viewportHeight = document.documentElement.clientHeight;
