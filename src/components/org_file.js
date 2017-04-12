@@ -129,6 +129,7 @@ class OrgFile extends Component {
     }
 
     const disabledClass = this.props.selectedHeaderId ? '' : 'btn--disabled';
+    const pushPullDisabled = this.props.sampleMode ? 'btn--disabled' : '';
     const actionDrawerStyle = {
       position: 'fixed',
       bottom: 10,
@@ -183,12 +184,12 @@ class OrgFile extends Component {
         <button className={`fa fa-chevron-right btn btn--circle ${disabledClass}`}
                 style={buttonStyle}
                 onClick={() => this.handleMoveTreeRightClick()}></button>
-        {!this.props.liveSync && <button className={`fa fa-cloud-upload btn btn--circle`}
+        {!this.props.liveSync && <button className={`fa fa-cloud-upload btn btn--circle ${pushPullDisabled}`}
                                          style={buttonStyle}
-                                         onClick={() => this.handlePushClick()}></button>}
-        <button className={`fa fa-cloud-download btn btn--circle`}
+                                         onClick={() => !pushPullDisabled && this.handlePushClick()}></button>}
+        <button className={`fa fa-cloud-download btn btn--circle ${pushPullDisabled}`}
                 style={buttonStyle}
-                onClick={() => this.handlePullClick()}></button>
+                onClick={() => !pushPullDisabled && this.handlePullClick()}></button>
       </div>
     );
     if (this.props.inTitleEditMode || this.props.inDescriptionEditMode) {
