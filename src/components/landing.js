@@ -17,8 +17,12 @@ class Landing extends Component {
 
   render() {
     return (
-      <div>
-        <button className="btn" onClick={() => this.viewSampleFile()}>View sample file</button>
+      <div className="landing">
+        <h1 className="landing-app-name">org-web</h1>
+        <h2 className="landing-tagline landing-tagline-1">Edit your org files online.</h2>
+        <h2 className="landing-tagline landing-tagline-2">Syncs with Dropbox.</h2>
+
+        <button className="btn sample-file-button" onClick={() => this.viewSampleFile()}>View sample file</button>
       </div>
     );
   }
