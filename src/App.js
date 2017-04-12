@@ -1,3 +1,4 @@
+/* globals Dropbox, process */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -11,6 +12,7 @@ import './stylesheets/org.css';
 import './stylesheets/dropbox.css';
 import OrgWeb from './components/org_web';
 import Settings from './components/settings';
+import Landing from './components/landing';
 import parseQueryString from './parse_query_string';
 
 class App extends Component {
@@ -18,6 +20,7 @@ class App extends Component {
     super(props);
     this.handleSettingsClick = this.handleSettingsClick.bind(this);
     this.handleSettingsClose = this.handleSettingsClose.bind(this);
+    this.handleSignInClick = this.handleSignInClick.bind(this);
 
     this.state = {
       showingSettings: false
@@ -49,10 +52,18 @@ class App extends Component {
     this.setState({ showingSettings: false });
   }
 
+  handleSignInClick() {
+    const dropbox = new Dropbox({ clientId: process.env.REACT_APP_DROPBOX_CLIENT_ID });
+    const authUrl = dropbox.getAuthenticationUrl(window.location.href);
+    window.location = authUrl;
+  }
+
   render() {
     let mainComponent = <OrgWeb />;
     if (this.state.showingSettings) {
       mainComponent = <Settings settingsClose={() => this.handleSettingsClose()} />;
+    } else if (!this.props.dropboxAccessToken && !this.props.sampleMode) {
+      mainComponent = <Landing />;
     }
 
     let settingsButton = (
@@ -64,12 +75,22 @@ class App extends Component {
       settingsButton = null;
     }
 
+    let signInButton = (
+      <div style={{marginLeft: 'auto', color: 'white'}} onClick={() => this.handleSignInClick()}>
+        Sign in
+      </div>
+    );
+    if (this.props.dropboxAccessToken) {
+      signInButton = null;
+    }
+
     return (
       <div>
         <div className="app-header">
           <img className="logo" src={logo} alt="Logo" />
           <h2 className="app-header__title">org-web</h2>
           {settingsButton}
+          {signInButton}
         </div>
 
         {mainComponent}
@@ -81,7 +102,8 @@ class App extends Component {
 function mapStateToProps(state, props) {
   return {
     filePath: state.org.get('filePath'),
-    dropboxAccessToken: state.dropbox.get('dropboxAccessToken')
+    dropboxAccessToken: state.dropbox.get('dropboxAccessToken'),
+    sampleMode: state.org.get('sampleMode')
   };
 }
 

@@ -11,27 +11,14 @@ import OrgFile from './org_file';
 class OrgWeb extends Component {
   constructor(props) {
     super(props);
-    this.authenticateWithDropbox = this.authenticateWithDropbox.bind(this);
     this.handleBackToFileChooser = this.handleBackToFileChooser.bind(this);
-    this.viewSampleFile = this.viewSampleFile.bind(this);
     this.exitSampleMode = this.exitSampleMode.bind(this);
 
     this.state = {};
   }
 
-  authenticateWithDropbox() {
-    const dropbox = new Dropbox({ clientId: process.env.REACT_APP_DROPBOX_CLIENT_ID });
-    const authUrl = dropbox.getAuthenticationUrl(window.location.href);
-    window.location = authUrl;
-  }
-
   handleBackToFileChooser() {
     this.props.orgActions.stopDisplayingFile();
-  }
-
-  viewSampleFile() {
-    const sampleFileContents = "\n* This is a top level header\nHere is the contents of the top level header.\n** This is a subheader\n** Todos\n*** TODO Todo item 1\n*** DONE Todo item 2\nCLOSED: [2017-03-06 Mon 21:30]\n*** TODO Todo item 3\n* This is another top level header\n** Tags                                                          :tag1:tag2:\nTags aren't natively supported, but Org mode is text based, so you can still edit tags yourself!\n";
-    this.props.orgActions.displaySample(sampleFileContents);
   }
 
   exitSampleMode() {
@@ -80,16 +67,7 @@ class OrgWeb extends Component {
           </div>
         );
       } else {
-        return (
-          <div className="dropbox-authenticate">
-            <h3 className="dropbox-authenticate__header">Authenticate with Dropbox</h3>
-            <br />
-            <button className="btn" onClick={() => this.authenticateWithDropbox()}>Authenticate</button>
-            <br />
-            <br />
-            <button className="btn" onClick={() => this.viewSampleFile()}>View sample file</button>
-          </div>
-        );
+        return <div>Something has gone wrong!</div>;
       }
     }
   }
