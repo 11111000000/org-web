@@ -11,13 +11,10 @@
 
 .landing-tagline {
     font-weight: 300;
-}
-
-.landing-tagline-1 {
     margin-bottom: 5px;
 }
 
-.landing-tagline-2 {
+.landing-tagline--subheader {
     margin-top: 0;
 }
 

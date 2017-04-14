@@ -223,7 +223,7 @@ class OrgFile extends Component {
     }
 
     return (
-      <div>
+      <div style={{paddingLeft: 5, paddingRight: 5}}>
         {dirtyIndicator}
         <div style={{whiteSpace: 'pre-wrap'}}>
           {mainContent}

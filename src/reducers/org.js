@@ -105,7 +105,7 @@ const advanceTodoState = (state, payload) => {
   const currentStateIndex = currentTodoSet.get('keywords').indexOf(currentTodoState);
   const newStateIndex = currentStateIndex + 1;
   let newTodoState = '';
-  if (newStateIndex < currentTodoSet.size) {
+  if (newStateIndex < currentTodoSet.get('keywords').size) {
     newTodoState = currentTodoSet.get('keywords').get(newStateIndex);
   }
 
