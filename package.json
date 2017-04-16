@@ -2,7 +2,7 @@
   "name": "org-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://org-web.com/",
+  "homepage": "https://org-web.org/",
   "devDependencies": {
     "react-scripts": "0.8.5"
   },
