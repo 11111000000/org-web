@@ -64,7 +64,7 @@ class App extends Component {
     if (this.state.showingSettings) {
       mainComponent = <Settings settingsClose={() => this.handleSettingsClose()} />;
     } else if (!this.props.dropboxAccessToken && !this.props.sampleMode) {
-      mainComponent = <Landing />;
+      mainComponent = <Landing signIn={() => this.handleSignInClick()} />;
     }
 
     let settingsButton = (

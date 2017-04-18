@@ -18,7 +18,24 @@
     margin-top: 0;
 }
 
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.landing-button {
+    width: 200px;
+}
+
 .sample-file-button {
     font-size: 20px;
     margin-top: 30px;
+    display: block;
+}
+
+.sign-in-landing-button {
+    font-size: 20px;
+    margin-top: 30px;
+    display: block;
 }
