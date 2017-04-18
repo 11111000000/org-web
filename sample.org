@@ -1,7 +1,7 @@
 #+TODO: TODO | DONE
 #+TODO: START INPROGRESS STALLED | FINISHED
 
-* This is an actual org file - feel free to play around with it! Don't worry about messing it up - your changes won't be saved, so refresh the page to reset it.
+* This is an actual org file - feel free to play around with it! (Don't worry about messing it up - your changes won't be saved, so just refresh the page to reset it)
 * For starters, tap on this header to open it
 This header has some description text and a couple subheaders. Look through the next few top level headers to learn more about org-web.
 ** This is a subheader
@@ -40,3 +40,13 @@ ln -s ~/Documents/todo.org ~/Dropbox/todo.org
 The first time you push changes from org-web back up to Dropbox, org-web will make a backup of the original file first. It'll be named your-file-name.org.org-web-bak. Dropbox also keeps a full version history of your files for you, but this is an additional precaution in case something goes wrong pushing the file back up to Dropbox :)
 * org-web operates completely client side
 You don't log in to org-web directly because org-web doesn't have a back end - it operates completely client side using Dropbox's wonderful Javascript SDK. This also means I'm not storing your Dropbox auth tokens in a database somewhere :)
+* Future plans
+org-web is currently pretty usable for simple tasks, but there's a lot more to do. Here are a few of the things on the list:
+** More first-class support for org features like tags and timestamps
+** Undo functionality
+** Better routing
+** Search
+** Support for other sync backends in addition to Dropbox
+** Ability to create new files
+** Archiving
+** Ability to Tweet a header directly from org-web (just kidding)

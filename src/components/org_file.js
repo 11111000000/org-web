@@ -151,7 +151,7 @@ class OrgFile extends Component {
     };
     let actionDrawerContents = (
       <div>
-        <button className={`fa fa-check-square btn btn--circle ${disabledClass}`}
+        <button className={`fa fa-check btn btn--circle ${disabledClass}`}
                 style={buttonStyle}
                 onClick={() => this.handleAdvanceTodoClick()}></button>
         <button className={`fa fa-pencil btn btn--circle ${disabledClass}`}
