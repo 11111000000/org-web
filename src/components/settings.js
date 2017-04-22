@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Switch from './switch';
 import * as dropboxActions from '../actions/dropbox';
 import * as orgActions from '../actions/org';
 
@@ -22,39 +23,26 @@ class Settings extends Component {
   }
 
   render() {
-    let liveSyncText = '';
-    let liveSyncButtonText = '';
-    if (this.props.liveSyncToDropbox) {
-      liveSyncText = 'Live syncing';
-      liveSyncButtonText = 'Disable';
-    } else {
-      liveSyncText = 'Not live syncing';
-      liveSyncButtonText = 'Enable';
-    }
-
     const settingStyle = {
       display: 'flex',
       alignItems: 'center',
-      margin: 10
-    };
-    const textStyle = {
-      marginLeft: 10
-    };
-    const buttonStyle = {
-      width: 90
+      justifyContent: 'space-between',
+      margin: 10,
+      borderTop: '1px solid #D8D8D8',
+      borderBottom: '1px solid #D8D8D8',
+      padding: '5px 0'
     };
     return (
       <div>
         <div style={settingStyle}>
-          <button className="btn"
-                  style={buttonStyle}
-                  onClick={() => this.handleLiveSyncClick()}>{liveSyncButtonText}</button>
-          <div style={textStyle}>{liveSyncText}</div>
+          <div>Live sync</div>
+          <Switch enabled={this.props.liveSyncToDropbox}
+                  toggle={() => this.handleLiveSyncClick()} />
         </div>
 
         <button onClick={() => this.handleSignOut()}
                 style={{margin: 10}}
-          className="btn">Sign out</button>
+                className="btn">Sign out</button>
 
         <br />
 

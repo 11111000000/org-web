@@ -10,7 +10,6 @@ import './stylesheets/normalize.css';
 import './stylesheets/base.css';
 import './stylesheets/org.css';
 import './stylesheets/dropbox.css';
-import './stylesheets/landing.css';
 import OrgWeb from './components/org_web';
 import Settings from './components/settings';
 import Landing from './components/landing';
