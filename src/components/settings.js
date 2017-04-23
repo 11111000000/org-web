@@ -56,14 +56,19 @@ class Settings extends Component {
                       buttonSelected={size => this.handleFontSizeSelection(size)} />
         </div>
 
+        <br />
+        <br />
+        <br />
+        <br />
+
         <button onClick={() => this.handleSignOut()}
                 style={{margin: 10}}
-                className="btn">Sign out</button>
+                className="btn btn--wide">Sign out</button>
 
         <br />
 
         <button style={{margin: 10}}
-                className="btn"
+                className="btn btn--wide"
                 onClick={() => this.props.settingsClose()}>Close</button>
       </div>
     );
