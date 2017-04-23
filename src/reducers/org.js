@@ -295,6 +295,10 @@ const stopDisplayingFile = (state, payload) => {
   return state.set('filePath', null).set('fileContents', null).set('headers', null);
 };
 
+const setFontSize = (state, payload) => {
+  return state.set('fontSize', payload.size);
+};
+
 export default (state = new Immutable.Map(), payload) => {
   switch (payload.type) {
   case 'addHeader':
@@ -348,6 +352,8 @@ export default (state = new Immutable.Map(), payload) => {
     return state.set('sampleMode', false).set('fileContents', null);
   case 'stopDisplayingFile':
     return stopDisplayingFile(state, payload);
+  case 'setFontSize':
+    return setFontSize(state, payload);
   default:
     return state;
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Switch from './switch';
+import TabButtons from './tab_buttons';
 import * as dropboxActions from '../actions/dropbox';
 import * as orgActions from '../actions/org';
 
@@ -10,11 +11,16 @@ class Settings extends Component {
     super(props);
 
     this.handleLiveSyncClick = this.handleLiveSyncClick.bind(this);
+    this.handleFontSizeSelection = this.handleFontSizeSelection.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
   }
 
   handleLiveSyncClick() {
     this.props.dropboxActions.setLiveSync(!this.props.liveSyncToDropbox);
+  }
+
+  handleFontSizeSelection(size) {
+    this.props.orgActions.setFontSize(size);
   }
 
   handleSignOut() {
@@ -28,16 +34,26 @@ class Settings extends Component {
       alignItems: 'center',
       justifyContent: 'space-between',
       margin: 10,
-      borderTop: '1px solid #D8D8D8',
+      marginTop: -9,
       borderBottom: '1px solid #D8D8D8',
       padding: '5px 0'
     };
+    const firstSettingStyle = {
+      borderTop: '1px solid #D8D8D8',
+      marginTop: 10
+    };
     return (
       <div>
-        <div style={settingStyle}>
+        <div style={Object.assign(firstSettingStyle, settingStyle)}>
           <div>Live sync</div>
           <Switch enabled={this.props.liveSyncToDropbox}
                   toggle={() => this.handleLiveSyncClick()} />
+        </div>
+        <div style={settingStyle}>
+          <div>Font size</div>
+          <TabButtons buttons={['Regular', 'Large']}
+                      selected={this.props.fontSize}
+                      buttonSelected={size => this.handleFontSizeSelection(size)} />
         </div>
 
         <button onClick={() => this.handleSignOut()}
@@ -56,7 +72,8 @@ class Settings extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    liveSyncToDropbox: state.dropbox.get('liveSync')
+    liveSyncToDropbox: state.dropbox.get('liveSync'),
+    fontSize: state.org.get('fontSize')
   };
 }
 

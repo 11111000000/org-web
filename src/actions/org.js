@@ -172,6 +172,13 @@ export const setDirty = (dirty) => {
   };
 };
 
+export const setFontSize = size => {
+  return {
+    type: 'setFontSize',
+    size
+  };
+};
+
 export const syncChanges = () => {
   return (dispatch, getState) => {
     dispatch(setDirty(true));

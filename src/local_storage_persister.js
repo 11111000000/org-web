@@ -28,6 +28,11 @@ export const readInitialState = () => {
       type: 'nullable'
     },
     {
+      category: 'org',
+      name: 'fontSize',
+      type: 'nullable'
+    },
+    {
       category: 'dropbox',
       name: 'liveSync',
       type: 'boolean'
@@ -63,7 +68,7 @@ export const subscribeToChanges = storeInstance => {
 
     const state = storeInstance.getState();
 
-    ['showingColoredHeaders', 'filePath'].forEach(field => {
+    ['filePath', 'fontSize'].forEach(field => {
       localStorage.setItem(field, state.org.get(field));
     });
     ['liveSync', 'dropboxAccessToken'].forEach(field => {
