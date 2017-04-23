@@ -24,6 +24,10 @@
     margin-top: -18px;
 }
 
+.app-container--large-font .title-line {
+    margin-top: -24px;
+}
+
 .header-text {
     display: flex;
 }

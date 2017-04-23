@@ -84,8 +84,10 @@ class App extends Component {
       signInButton = null;
     }
 
+    const largeFont = this.props.fontSize === 'Large';
+
     return (
-      <div>
+      <div className={`app-container ${largeFont && 'app-container--large-font'}`}>
         <div className="app-header">
           <img className="logo" src={logo} alt="Logo" />
           <h2 className="app-header__title">org-web</h2>
@@ -103,7 +105,8 @@ function mapStateToProps(state, props) {
   return {
     filePath: state.org.get('filePath'),
     dropboxAccessToken: state.dropbox.get('dropboxAccessToken'),
-    sampleMode: state.org.get('sampleMode')
+    sampleMode: state.org.get('sampleMode'),
+    fontSize: state.org.get('fontSize')
   };
 }
 

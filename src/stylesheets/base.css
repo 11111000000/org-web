@@ -1,3 +1,11 @@
+.app-container {
+    font-size: 16px;
+}
+
+.app-container--large-font {
+    font-size: 20px;
+}
+
 .btn {
     background-color: #3d696a;
     color: white;

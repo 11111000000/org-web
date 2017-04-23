@@ -13,6 +13,10 @@
     padding: 7px;
 }
 
+.app-container--large-font .tab-buttons__button {
+    padding-top: 5px;
+}
+
 .tab-buttons__button--selected {
     background-color: #3D696A;
     color: white;
