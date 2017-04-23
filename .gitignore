@@ -16,3 +16,6 @@ npm-debug.log
 
 # Emacs autosave files.
 *~
+
+# Deploy script.
+deploy.sh
