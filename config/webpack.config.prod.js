@@ -166,7 +166,7 @@ module.exports = {
       },
       {
         test: /\.org$/,
-        use: 'raw-loader'
+        loader: 'raw-loader'
       }
     ]
   },
