@@ -21,6 +21,7 @@ class App extends Component {
     this.handleSettingsClick = this.handleSettingsClick.bind(this);
     this.handleSettingsClose = this.handleSettingsClose.bind(this);
     this.handleSignInClick = this.handleSignInClick.bind(this);
+    this.handleChangelogClick = this.handleChangelogClick.bind(this);
 
     this.state = {
       showingSettings: false
@@ -58,6 +59,10 @@ class App extends Component {
     window.location = authUrl;
   }
 
+  handleChangelogClick() {
+
+  }
+
   render() {
     let mainComponent = <OrgWeb />;
     if (this.state.showingSettings) {
@@ -66,17 +71,25 @@ class App extends Component {
       mainComponent = <Landing signIn={() => this.handleSignInClick()} />;
     }
 
+    let changelogButtonStyle = {
+      color: 'white',
+      marginLeft: 'auto'
+    };
+    if (!this.props.dropboxAccessToken) {
+      changelogButtonStyle.marginLeft = 20;
+    }
+    const changelogButton = (
+      <div style={changelogButtonStyle} onClick={() => {}}>
+        <i className="fa fa-gift"></i>
+      </div>
+    );
+
     let settingsButton = null;
     if (this.props.dropboxAccessToken || this.props.sampleMode) {
-      let settingsButtonStyle = {
-        marginLeft: 'auto',
+      const settingsButtonStyle = {
+        marginLeft: 20,
         color: 'white'
       };
-
-      if (this.props.sampleMode) {
-        settingsButtonStyle.marginLeft = 20;
-      }
-
       settingsButton = (
         <div style={settingsButtonStyle} onClick={() => this.handleSettingsClick()}>
           <i className="fa fa-cogs"></i>
@@ -101,6 +114,7 @@ class App extends Component {
           <img className="logo" src={logo} alt="Logo" />
           <h2 className="app-header__title">org-web</h2>
           {signInButton}
+          {changelogButton}
           {settingsButton}
         </div>
 
