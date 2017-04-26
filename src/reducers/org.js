@@ -303,6 +303,10 @@ const setBulletStyle = (state, payload) => {
   return state.set('bulletStyle', payload.style);
 };
 
+const setHeaderSpacing = (state, payload) => {
+  return state.set('headerSpacing', payload.spacing);
+};
+
 export default (state = new Immutable.Map(), payload) => {
   switch (payload.type) {
   case 'addHeader':
@@ -360,6 +364,8 @@ export default (state = new Immutable.Map(), payload) => {
     return setFontSize(state, payload);
   case 'setBulletStyle':
     return setBulletStyle(state, payload);
+  case 'setHeaderSpacing':
+    return setHeaderSpacing(state, payload);
   default:
     return state;
   }

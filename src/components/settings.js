@@ -13,6 +13,7 @@ class Settings extends Component {
     this.handleLiveSyncClick = this.handleLiveSyncClick.bind(this);
     this.handleFontSizeSelection = this.handleFontSizeSelection.bind(this);
     this.handleBulletStyleSelection = this.handleBulletStyleSelection.bind(this);
+    this.handleHeaderSpacingSelection = this.handleHeaderSpacingSelection.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
   }
 
@@ -26,6 +27,10 @@ class Settings extends Component {
 
   handleBulletStyleSelection(style) {
     this.props.orgActions.setBulletStyle(style);
+  }
+
+  handleHeaderSpacingSelection(spacing) {
+    this.props.orgActions.setHeaderSpacing(spacing);
   }
 
   handleSignOut() {
@@ -66,6 +71,12 @@ class Settings extends Component {
                       selected={this.props.bulletStyle}
                       buttonSelected={style => this.handleBulletStyleSelection(style)} />
         </div>
+        <div style={settingStyle}>
+          <div>Header spacing</div>
+          <TabButtons buttons={['Cozy', 'Spacious']}
+                      selected={this.props.headerSpacing}
+                      buttonSelected={spacing => this.handleHeaderSpacingSelection(spacing)} />
+        </div>
 
         <br />
         <br />
@@ -90,7 +101,8 @@ function mapStateToProps(state, props) {
   return {
     liveSyncToDropbox: state.dropbox.get('liveSync'),
     fontSize: state.org.get('fontSize'),
-    bulletStyle: state.org.get('bulletStyle')
+    bulletStyle: state.org.get('bulletStyle'),
+    headerSpacing: state.org.get('headerSpacing')
   };
 }
 

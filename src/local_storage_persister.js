@@ -27,6 +27,11 @@ const fields = [
     type: 'nullable'
   },
   {
+    category: 'org',
+    name: 'headerSpacing',
+    type: 'nullable'
+  },
+  {
     category: 'dropbox',
     name: 'liveSync',
     type: 'boolean'

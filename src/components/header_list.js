@@ -90,7 +90,7 @@ class HeaderList extends Component {
       let style = {
         paddingLeft: 20 * header.nestingLevel,
         marginBottom: 2,
-        marginTop: 25,
+        marginTop: this.props.headerSpacing === 'Cozy' ? 5 : 25,
         paddingTop: 5
       };
       if (header.selected) {
@@ -132,7 +132,8 @@ function mapStateToProps(state, props) {
     selectedHeaderId: state.org.get('selectedHeaderId'),
     inTitleEditMode: state.org.get('inTitleEditMode'),
     inDescriptionEditMode: state.org.get('inDescriptionEditMode'),
-    bulletStyle: state.org.get('bulletStyle')
+    bulletStyle: state.org.get('bulletStyle'),
+    headerSpacing: state.org.get('headerSpacing')
   };
 };
 

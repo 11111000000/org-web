@@ -186,6 +186,13 @@ export const setBulletStyle = style => {
   };
 };
 
+export const setHeaderSpacing = spacing => {
+  return {
+    type: 'setHeaderSpacing',
+    spacing
+  };
+};
+
 export const syncChanges = () => {
   return (dispatch, getState) => {
     dispatch(setDirty(true));
