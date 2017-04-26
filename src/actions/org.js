@@ -179,6 +179,13 @@ export const setFontSize = size => {
   };
 };
 
+export const setBulletStyle = style => {
+  return {
+    type: 'setBulletStyle',
+    style
+  };
+};
+
 export const syncChanges = () => {
   return (dispatch, getState) => {
     dispatch(setDirty(true));

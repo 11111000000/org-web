@@ -103,7 +103,9 @@ class HeaderList extends Component {
              key={header.headerId}
              ref={(e) => {this.headerRefs[header.headerId] = e;}}
              style={style}>
-          <div style={{marginLeft: -16}}>*</div>
+          <div style={{marginLeft: -16}}>
+            {this.props.bulletStyle === 'Fancy' ? '●' : '*'}
+          </div>
           <TitleLine headerId={header.headerId}
                      title={header.title}
                      rawTitle={header.rawTitle}
@@ -129,7 +131,8 @@ function mapStateToProps(state, props) {
   return {
     selectedHeaderId: state.org.get('selectedHeaderId'),
     inTitleEditMode: state.org.get('inTitleEditMode'),
-    inDescriptionEditMode: state.org.get('inDescriptionEditMode')
+    inDescriptionEditMode: state.org.get('inDescriptionEditMode'),
+    bulletStyle: state.org.get('bulletStyle')
   };
 };
 

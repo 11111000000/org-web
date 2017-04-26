@@ -299,6 +299,10 @@ const setFontSize = (state, payload) => {
   return state.set('fontSize', payload.size);
 };
 
+const setBulletStyle = (state, payload) => {
+  return state.set('bulletStyle', payload.style);
+};
+
 export default (state = new Immutable.Map(), payload) => {
   switch (payload.type) {
   case 'addHeader':
@@ -354,6 +358,8 @@ export default (state = new Immutable.Map(), payload) => {
     return stopDisplayingFile(state, payload);
   case 'setFontSize':
     return setFontSize(state, payload);
+  case 'setBulletStyle':
+    return setBulletStyle(state, payload);
   default:
     return state;
   }

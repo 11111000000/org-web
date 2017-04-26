@@ -12,6 +12,7 @@ class Settings extends Component {
 
     this.handleLiveSyncClick = this.handleLiveSyncClick.bind(this);
     this.handleFontSizeSelection = this.handleFontSizeSelection.bind(this);
+    this.handleBulletStyleSelection = this.handleBulletStyleSelection.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
   }
 
@@ -21,6 +22,10 @@ class Settings extends Component {
 
   handleFontSizeSelection(size) {
     this.props.orgActions.setFontSize(size);
+  }
+
+  handleBulletStyleSelection(style) {
+    this.props.orgActions.setBulletStyle(style);
   }
 
   handleSignOut() {
@@ -55,6 +60,12 @@ class Settings extends Component {
                       selected={this.props.fontSize}
                       buttonSelected={size => this.handleFontSizeSelection(size)} />
         </div>
+        <div style={settingStyle}>
+          <div>Bullet style</div>
+          <TabButtons buttons={['Classic', 'Fancy']}
+                      selected={this.props.bulletStyle}
+                      buttonSelected={style => this.handleBulletStyleSelection(style)} />
+        </div>
 
         <br />
         <br />
@@ -78,7 +89,8 @@ class Settings extends Component {
 function mapStateToProps(state, props) {
   return {
     liveSyncToDropbox: state.dropbox.get('liveSync'),
-    fontSize: state.org.get('fontSize')
+    fontSize: state.org.get('fontSize'),
+    bulletStyle: state.org.get('bulletStyle')
   };
 }
 
