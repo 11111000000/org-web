@@ -112,7 +112,7 @@ class OrgFile extends Component {
 
   render() {
     let dirtyIndicator = '';
-    if (this.props.dirty && !this.props.sampleMode) {
+    if (this.props.dirty && !this.props.staticFileMode) {
       const style = {
         padding: 3,
         backgroundColor: 'gray',
@@ -129,7 +129,7 @@ class OrgFile extends Component {
     }
 
     const disabledClass = this.props.selectedHeaderId ? '' : 'btn--disabled';
-    const pushPullDisabled = this.props.sampleMode ? 'btn--disabled' : '';
+    const pushPullDisabled = this.props.staticFileMode ? 'btn--disabled' : '';
     const actionDrawerStyle = {
       position: 'fixed',
       bottom: 10,
@@ -240,7 +240,7 @@ function mapStateToProps(state, props) {
     filePath: state.org.get('filePath'),
     dirty: state.org.get('dirty'),
     selectedHeaderId: state.org.get('selectedHeaderId'),
-    sampleMode: state.org.get('sampleMode'),
+    staticFileMode: state.org.get('staticFileMode'),
     inTitleEditMode: state.org.get('inTitleEditMode'),
     inDescriptionEditMode: state.org.get('inDescriptionEditMode'),
     liveSync: state.dropbox.get('liveSync')

@@ -349,15 +349,16 @@ export default (state = new Immutable.Map(), payload) => {
     return state.set('dirty', payload.dirty);
   case 'displayFile':
     return displayFile(state, payload);
-  case 'displaySampleFile':
-    const parsedFile = parseOrg.default(payload.sampleFileContents);
-    return state.set('fileContents', payload.sampleFileContents)
+  case 'displayStaticFile':
+    const parsedFile = parseOrg.default(payload.staticFileContents);
+    return state.set('fileContents', payload.staticFileContents)
       .set('headers', Immutable.fromJS(parsedFile.headers))
       .set('todoKeywordSets', Immutable.fromJS(parsedFile.todoKeywordSets));
-  case 'enterSampleMode':
-    return state.set('sampleMode', true);
-  case 'exitSampleMode':
-    return state.set('sampleMode', false).set('fileContents', null);
+  case 'enterStaticFileMode':
+    return state.set('staticFileMode', true)
+      .set('exitButtonTitle', payload.exitButtonTitle);
+  case 'exitStaticFileMode':
+    return state.set('staticFileMode', false).set('fileContents', null);
   case 'stopDisplayingFile':
     return stopDisplayingFile(state, payload);
   case 'setFontSize':

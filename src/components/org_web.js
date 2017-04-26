@@ -12,7 +12,7 @@ class OrgWeb extends Component {
   constructor(props) {
     super(props);
     this.handleBackToFileChooser = this.handleBackToFileChooser.bind(this);
-    this.exitSampleMode = this.exitSampleMode.bind(this);
+    this.exitStaticFileMode = this.exitStaticFileMode.bind(this);
 
     this.state = {};
   }
@@ -21,8 +21,8 @@ class OrgWeb extends Component {
     this.props.orgActions.stopDisplayingFile();
   }
 
-  exitSampleMode() {
-    this.props.orgActions.exitSampleMode();
+  exitStaticFileMode() {
+    this.props.orgActions.exitStaticFileMode();
   }
 
   render() {
@@ -33,22 +33,24 @@ class OrgWeb extends Component {
       );
     }
 
-    const nonSampleModeButtons = (
+    const nonStaticFileModeButtons = (
       <div>
         <button onClick={() => this.handleBackToFileChooser()}
                 className="btn btn--wide">Back to file chooser</button>
       </div>
     );
 
-    const exitSampleButton = (
+    const exitStaticFileButton = (
       <div>
         <br />
         <br />
-        <button onClick={() => this.exitSampleMode()} className="btn btn--wide">Exit sample</button>
+        <button onClick={() => this.exitStaticFileMode()} className="btn btn--wide">
+          {this.props.exitButtonTitle}
+        </button>
       </div>
     );
 
-    const trailingContents = this.props.sampleMode ? exitSampleButton : nonSampleModeButtons;
+    const trailingContents = this.props.staticFileMode ? exitStaticFileButton : nonStaticFileModeButtons;
 
     if (this.props.fileContents) {
       return (
@@ -78,10 +80,11 @@ function mapStateToProps(state, props) {
     dropboxAccessToken: state.dropbox.get('dropboxAccessToken'),
     fileContents: state.org.get('fileContents'),
     filePath: state.org.get('filePath'),
-    sampleMode: state.org.get('sampleMode'),
+    staticFileMode: state.org.get('staticFileMode'),
     loadingMessage: state.base.get('loadingMessage'),
     liveSync: state.dropbox.get('liveSync'),
-    dirty: state.org.get('dirty')
+    dirty: state.org.get('dirty'),
+    exitButtonTitle: state.org.get('exitButtonTitle')
   };
 }
 

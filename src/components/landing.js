@@ -14,8 +14,7 @@ class Landing extends Component {
   }
 
   viewSampleFile() {
-    const sampleFileContents = sampleFile;
-    this.props.orgActions.displaySample(sampleFileContents.trim());
+    this.props.orgActions.displayStatic(sampleFile.trim(), 'Exit sample');
   }
 
   signIn() {

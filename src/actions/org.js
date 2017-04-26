@@ -29,29 +29,30 @@ export const displayFile = (fileContents, filePath) => {
   };
 };
 
-export const enterSampleMode = () => {
+export const enterStaticFileMode = (exitButtonTitle) => {
   return {
-    type: 'enterSampleMode'
+    type: 'enterStaticFileMode',
+    exitButtonTitle
   };
 };
 
-export const exitSampleMode = () => {
+export const exitStaticFileMode = () => {
   return {
-    type: 'exitSampleMode'
+    type: 'exitStaticFileMode'
   };
 };
 
-export const displaySampleFile = (sampleFileContents) => {
+export const displayStaticFile = (staticFileContents) => {
   return {
-    type: 'displaySampleFile',
-    sampleFileContents
+    type: 'displayStaticFile',
+    staticFileContents
   };
 };
 
-export const displaySample = (sampleFileContents) => {
+export const displayStatic = (staticFileContents, exitButtonTitle) => {
   return (dispatch, getState) => {
-    dispatch(displaySampleFile(sampleFileContents));
-    dispatch(enterSampleMode());
+    dispatch(displayStaticFile(staticFileContents));
+    dispatch(enterStaticFileMode(exitButtonTitle));
   };
 };
 

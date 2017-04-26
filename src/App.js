@@ -14,6 +14,7 @@ import OrgWeb from './components/org_web';
 import Settings from './components/settings';
 import Landing from './components/landing';
 import parseQueryString from './parse_query_string';
+import changelogFile from '../changelog.org';
 
 class App extends Component {
   constructor(props) {
@@ -60,14 +61,14 @@ class App extends Component {
   }
 
   handleChangelogClick() {
-
+    this.props.orgActions.displayStatic(changelogFile.trim(), 'Done');
   }
 
   render() {
     let mainComponent = <OrgWeb />;
     if (this.state.showingSettings) {
       mainComponent = <Settings settingsClose={() => this.handleSettingsClose()} />;
-    } else if (!this.props.dropboxAccessToken && !this.props.sampleMode) {
+    } else if (!this.props.dropboxAccessToken && !this.props.staticFileMode) {
       mainComponent = <Landing signIn={() => this.handleSignInClick()} />;
     }
 
@@ -79,13 +80,13 @@ class App extends Component {
       changelogButtonStyle.marginLeft = 20;
     }
     const changelogButton = (
-      <div style={changelogButtonStyle} onClick={() => {}}>
+      <div style={changelogButtonStyle} onClick={() => this.handleChangelogClick()}>
         <i className="fa fa-gift"></i>
       </div>
     );
 
     let settingsButton = null;
-    if (this.props.dropboxAccessToken || this.props.sampleMode) {
+    if (this.props.dropboxAccessToken || this.props.staticFileMode) {
       const settingsButtonStyle = {
         marginLeft: 20,
         color: 'white'
@@ -128,7 +129,7 @@ function mapStateToProps(state, props) {
   return {
     filePath: state.org.get('filePath'),
     dropboxAccessToken: state.dropbox.get('dropboxAccessToken'),
-    sampleMode: state.org.get('sampleMode'),
+    staticFileMode: state.org.get('staticFileMode'),
     fontSize: state.org.get('fontSize')
   };
 }
