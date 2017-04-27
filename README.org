@@ -5,4 +5,6 @@ It was born out of my desire to be able to easily view and edit my org files fro
 
 If you don't already keep your org files in Dropbox, I recommend symlinking them in:
 
-`ln -s ~/Documents/todo.org ~/Dropbox/todo.org`
+#+BEGIN_SRC
+ln -s ~/Documents/todo.org ~/Dropbox/todo.org
+#+END_SRC
