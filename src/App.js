@@ -44,6 +44,12 @@ class App extends Component {
     if (this.props.filePath) {
       this.props.dropboxActions.downloadFile(this.props.filePath);
     }
+
+    const currentVersion = parseInt(process.env.REACT_APP_CURRENT_VERSION, 10);
+    if (this.props.latestVersion && currentVersion > parseInt(this.props.latestVersion, 10)) {
+      this.props.orgActions.setNewVersion(true);
+    }
+    this.props.orgActions.setLatestVersion(currentVersion);
   }
 
   handleSettingsClick() {
@@ -62,6 +68,7 @@ class App extends Component {
 
   handleChangelogClick() {
     this.props.orgActions.displayStatic(changelogFile.trim(), 'Done');
+    this.props.orgActions.setNewVersion(false);
   }
 
   render() {
@@ -78,6 +85,9 @@ class App extends Component {
     };
     if (!this.props.dropboxAccessToken) {
       changelogButtonStyle.marginLeft = 20;
+    }
+    if (this.props.newVersion) {
+      changelogButtonStyle.color = '#ff3838';
     }
     const changelogButton = (
       <div style={changelogButtonStyle} onClick={() => this.handleChangelogClick()}>
@@ -130,7 +140,9 @@ function mapStateToProps(state, props) {
     filePath: state.org.get('filePath'),
     dropboxAccessToken: state.dropbox.get('dropboxAccessToken'),
     staticFileMode: state.org.get('staticFileMode'),
-    fontSize: state.org.get('fontSize')
+    fontSize: state.org.get('fontSize'),
+    latestVersion: state.org.get('latestVersion'),
+    newVersion: state.org.get('newVersion')
   };
 }
 

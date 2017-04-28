@@ -1,3 +1,5 @@
-* this is a test
-* another test
-** blah
+* April 27th, 2017
+** Added setting for larger font size
+** Added setting for fancy bullets
+** Added setting for cozier header spacing
+** Added a button to view new features (what you're reading now!)

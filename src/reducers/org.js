@@ -307,6 +307,14 @@ const setHeaderSpacing = (state, payload) => {
   return state.set('headerSpacing', payload.spacing);
 };
 
+const setLatestVersion = (state, payload) => {
+  return state.set('latestVersion', payload.latestVersion);
+};
+
+const setNewVersion = (state, payload) => {
+  return state.set('newVersion', payload.newVersion);
+};
+
 export default (state = new Immutable.Map(), payload) => {
   switch (payload.type) {
   case 'addHeader':
@@ -367,6 +375,10 @@ export default (state = new Immutable.Map(), payload) => {
     return setBulletStyle(state, payload);
   case 'setHeaderSpacing':
     return setHeaderSpacing(state, payload);
+  case 'setLatestVersion':
+    return setLatestVersion(state, payload);
+  case 'setNewVersion':
+    return setNewVersion(state, payload);
   default:
     return state;
   }

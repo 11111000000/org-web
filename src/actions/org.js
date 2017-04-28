@@ -194,6 +194,20 @@ export const setHeaderSpacing = spacing => {
   };
 };
 
+export const setLatestVersion = latestVersion => {
+  return {
+    type: 'setLatestVersion',
+    latestVersion
+  };
+};
+
+export const setNewVersion = newVersion => {
+  return {
+    type: 'setNewVersion',
+    newVersion
+  };
+};
+
 export const syncChanges = () => {
   return (dispatch, getState) => {
     dispatch(setDirty(true));

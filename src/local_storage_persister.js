@@ -32,6 +32,11 @@ const fields = [
     type: 'nullable'
   },
   {
+    category: 'org',
+    name: 'latestVersion',
+    type: 'nullable'
+  },
+  {
     category: 'dropbox',
     name: 'liveSync',
     type: 'boolean'
@@ -69,7 +74,7 @@ export const readInitialState = () => {
   return initialState;
 };
 
-// Persist some fields to localStorage;
+// Persist some fields to localStorage.
 export const subscribeToChanges = storeInstance => {
   return () => {
     if (!localStorageAvailable()) {
