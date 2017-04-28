@@ -45,7 +45,7 @@ class App extends Component {
       this.props.dropboxActions.downloadFile(this.props.filePath);
     }
 
-    const currentVersion = parseInt(process.env.REACT_APP_CURRENT_VERSION, 10);
+    const currentVersion = 2;
     if (this.props.latestVersion && currentVersion > parseInt(this.props.latestVersion, 10)) {
       this.props.orgActions.setNewVersion(true);
     }
