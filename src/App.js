@@ -13,7 +13,7 @@ import './stylesheets/dropbox.css';
 import OrgWeb from './components/org_web';
 import Settings from './components/settings';
 import Landing from './components/landing';
-import parseQueryString from './parse_query_string';
+import parseQueryString from './lib/parse_query_string';
 import changelogFile from '../changelog.org';
 
 class App extends Component {

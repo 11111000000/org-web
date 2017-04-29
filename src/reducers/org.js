@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import * as parseOrg from '../parse_org';
+import * as parseOrg from '../lib/parse_org';
 
 const indexOfHeaderWithId = (headers, headerId) => {
   return headers.findIndex(header => header.get('id') === headerId);

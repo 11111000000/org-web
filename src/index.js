@@ -4,7 +4,7 @@ import App from './App';
 import './index.css';
 import { Provider } from 'react-redux';
 import Store from './store';
-import { readInitialState, subscribeToChanges } from './local_storage_persister';
+import { readInitialState, subscribeToChanges } from './lib/local_storage_persister';
 
 const StoreInstance = Store(readInitialState());
 StoreInstance.subscribe(subscribeToChanges(StoreInstance));
