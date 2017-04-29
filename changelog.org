@@ -1,4 +1,5 @@
 * April 27th, 2017
+** org-web is now open source! [[https://github.com/DanielDe/org-web]]
 ** Added setting for larger font size
 ** Added setting for fancy bullets
 ** Added setting for cozier header spacing
