@@ -3,6 +3,20 @@ import { displayFile, stopDisplayingFile, setDirty } from './org';
 import { setLoadingMessage } from './base';
 import exportOrg from '../export_org';
 
+export const pushBackup = filePath => {
+  return (dispatch, getState) => {
+    const dropbox = new Dropbox({ accessToken: getState().dropbox.get('dropboxAccessToken') });
+    dropbox.filesUpload({
+      path: filePath + '.org-web-bak',
+      contents: getState().org.get('fileContents'),
+      mode: {
+        '.tag': 'overwrite'
+      },
+      autorename: true
+    });
+  };
+};
+
 export const downloadFile = (filePath) => {
   return (dispatch, getState) => {
     const dropbox = new Dropbox({ accessToken: getState().dropbox.get('dropboxAccessToken') });
@@ -15,6 +29,7 @@ export const downloadFile = (filePath) => {
         dispatch(displayFile(contents, filePath));
         dispatch(setDirty(false));
         dispatch(setLoadingMessage(null));
+        dispatch(pushBackup(filePath));
       });
       reader.readAsText(response.fileBlob);
     });
@@ -88,26 +103,17 @@ export const push = (filePath) => {
     dispatch(setLoadingMessage('Pushing...'));
     const dropbox = new Dropbox({ accessToken: getState().dropbox.get('dropboxAccessToken') });
     dropbox.filesUpload({
-      path: filePath + '.org-web-bak',
-      contents: getState().org.get('fileContents'),
+      path: filePath,
+      contents: contents,
       mode: {
-        '.tag': 'overwrite'
+        '.tag' : 'overwrite'
       },
       autorename: true
-    }).then(() => {
-      dropbox.filesUpload({
-        path: filePath,
-        contents: contents,
-        mode: {
-          '.tag' : 'overwrite'
-        },
-        autorename: true
-      }).then(response => {
-        dispatch(setDirty(false));
-        dispatch(setLoadingMessage(null));
-      }).catch(error => {
-        alert(`There was an error pushing the file: ${error}`);
-      });
+    }).then(response => {
+      dispatch(setDirty(false));
+      dispatch(setLoadingMessage(null));
+    }).catch(error => {
+      alert(`There was an error pushing the file: ${error}`);
     });
   };
 };
