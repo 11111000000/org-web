@@ -7,10 +7,6 @@
     box-sizing: border-box;
 }
 
-.switch--enabled {
-    background-color: #3D696A;
-}
-
 .switch__grabber {
     width: 42px;
     height: 28px;
@@ -18,8 +14,4 @@
     box-sizing: border-box;
     box-shadow: 1px 1px 5px 0px rgba(148,148,148,0.75);
     background-color: white;
-}
-
-.switch__grabber--enabled {
-    margin-left: 42px;
 }
