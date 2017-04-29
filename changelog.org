@@ -1,3 +1,5 @@
+* April 29th, 2017
+** Backups are now made on first load of a file, rather than with every push. Should speed things up a bit!
 * April 27th, 2017
 ** org-web is now open source! [[https://github.com/DanielDe/org-web]]
 ** Added setting for larger font size
