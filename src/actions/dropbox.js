@@ -56,6 +56,13 @@ export const setLiveSync = (liveSync) => {
   };
 };
 
+export const setCheckForNewerVersion = (checkForNewerVersion) => {
+  return {
+    type: 'setCheckForNewerVersion',
+    checkForNewerVersion
+  };
+};
+
 export const signOut = () => {
   return (dispatch, getState) => {
     dispatch(stopDisplayingFile());

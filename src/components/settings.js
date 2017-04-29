@@ -10,14 +10,15 @@ class Settings extends Component {
   constructor(props) {
     super(props);
 
-    this.handleLiveSyncClick = this.handleLiveSyncClick.bind(this);
+    this.handleLiveSyncTap = this.handleLiveSyncTap.bind(this);
     this.handleFontSizeSelection = this.handleFontSizeSelection.bind(this);
     this.handleBulletStyleSelection = this.handleBulletStyleSelection.bind(this);
     this.handleHeaderSpacingSelection = this.handleHeaderSpacingSelection.bind(this);
+    this.handleCheckForNewerVersionTap = this.handleCheckForNewerVersionTap.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
   }
 
-  handleLiveSyncClick() {
+  handleLiveSyncTap() {
     this.props.dropboxActions.setLiveSync(!this.props.liveSyncToDropbox);
   }
 
@@ -31,6 +32,10 @@ class Settings extends Component {
 
   handleHeaderSpacingSelection(spacing) {
     this.props.orgActions.setHeaderSpacing(spacing);
+  }
+
+  handleCheckForNewerVersionTap() {
+    this.props.dropboxActions.setCheckForNewerVersion(!this.props.checkForNewerVersion);
   }
 
   handleSignOut() {
@@ -57,7 +62,7 @@ class Settings extends Component {
         <div style={Object.assign(firstSettingStyle, settingStyle)}>
           <div>Live sync</div>
           <Switch enabled={this.props.liveSyncToDropbox}
-                  toggle={() => this.handleLiveSyncClick()} />
+                  toggle={() => this.handleLiveSyncTap()} />
         </div>
         <div style={settingStyle}>
           <div>Font size</div>
@@ -76,6 +81,11 @@ class Settings extends Component {
           <TabButtons buttons={['Cozy', 'Spacious']}
                       selected={this.props.headerSpacing}
                       buttonSelected={spacing => this.handleHeaderSpacingSelection(spacing)} />
+        </div>
+        <div style={settingStyle}>
+          <div>Check for new version before push</div>
+          <Switch enabled={this.props.checkForNewerVersion}
+                  toggle={() => this.handleCheckForNewerVersionTap()} />
         </div>
 
         <br />
@@ -102,7 +112,8 @@ function mapStateToProps(state, props) {
     liveSyncToDropbox: state.dropbox.get('liveSync'),
     fontSize: state.org.get('fontSize'),
     bulletStyle: state.org.get('bulletStyle'),
-    headerSpacing: state.org.get('headerSpacing')
+    headerSpacing: state.org.get('headerSpacing'),
+    checkForNewerVersion: state.dropbox.get('checkForNewerVersion')
   };
 }
 

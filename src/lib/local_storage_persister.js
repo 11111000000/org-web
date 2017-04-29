@@ -45,6 +45,11 @@ const fields = [
     category: 'dropbox',
     name: 'dropboxAccessToken',
     type: 'nullable'
+  },
+  {
+    category: 'dropbox',
+    name: 'checkForNewerVersion',
+    type: 'boolean'
   }
 ];
 
