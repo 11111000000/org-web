@@ -1,3 +1,5 @@
+import Immutable from 'immutable';
+
 // Accepts a raw string description and returns a list of objects representing it.
 export const parseLinks = (description) => {
   // Match strings containing either [[uri]] or [[uri][title]].
@@ -61,49 +63,49 @@ export const parseLinks = (description) => {
     });
   }
 
-  return descriptionParts;
+  return Immutable.fromJS(descriptionParts);
 };
 
-const defaultKeywordSets = [{
+const defaultKeywordSets = Immutable.fromJS([{
   keywords: ['TODO', 'DONE'],
   default: true
-}];
+}]);
 
 export const parseTitleLine = (titleLine, todoKeywordSets) => {
-  const allKeywords = [].concat.apply([], todoKeywordSets.map(todoKeywordSet => {
-    return todoKeywordSet.keywords;
-  }));
-  const todoKeyword = allKeywords.filter(keyword => titleLine.startsWith(keyword + ' '))[0];
+  const allKeywords = todoKeywordSets.flatMap(todoKeywordSet => {
+    return todoKeywordSet.get('keywords');
+  });
+  const todoKeyword = allKeywords.filter(keyword => titleLine.startsWith(keyword + ' ')).first();
   let rawTitle = titleLine;
   if (todoKeyword) {
     rawTitle = rawTitle.substr(todoKeyword.length + 1);
   }
   const title = parseLinks(rawTitle);
 
-  return { title, rawTitle, todoKeyword };
+  return Immutable.fromJS({ title, rawTitle, todoKeyword });
 };
 
 export const newHeaderWithTitle = (line, nestingLevel, todoKeywordSets) => {
-  if (todoKeywordSets.length === 0) {
+  if (todoKeywordSets.size === 0) {
     todoKeywordSets = defaultKeywordSets;
   }
 
   const titleLine = parseTitleLine(line, todoKeywordSets);
-  return {
+  return Immutable.fromJS({
     titleLine,
     rawDescription: '',
     description: [],
     opened: false,
     id: Math.random(),
     nestingLevel
-  };
+  });
 };
 
 const parseOrg = (fileContents) => {
-  let headers = [];
+  let headers = new Immutable.List();
   const lines = fileContents.split('\n');
 
-  let todoKeywordSets = [];
+  let todoKeywordSets = new Immutable.List();
 
   lines.forEach(line => {
     if (line.startsWith('*')) {
@@ -112,9 +114,9 @@ const parseOrg = (fileContents) => {
         nestingLevel = line.length;
       }
       const title = line.substr(nestingLevel + 1);
-      headers.push(newHeaderWithTitle(title, nestingLevel, todoKeywordSets));
+      headers = headers.push(newHeaderWithTitle(title, nestingLevel, todoKeywordSets));
     } else {
-      if (headers.length === 0) {
+      if (headers.size === 0) {
         if (line.startsWith('#+TODO: ') || line.startsWith('#+TYP_TODO: ')) {
           const keywordsString = line.substr(line.indexOf(':') + 2);
           const keywordStrings = keywordsString.split(/\s/).filter(keyword => {
@@ -127,30 +129,30 @@ const parseOrg = (fileContents) => {
 
             return keyword;
           });
-          todoKeywordSets.push({
+          todoKeywordSets = todoKeywordSets.push(Immutable.fromJS({
             keywords,
             configLine: line,
             default: false
-          });
+          }));
         }
       } else {
-        const lastHeader = headers[headers.length - 1];
-        lastHeader.rawDescription += '\n' + line;
+        headers = headers.updateIn([headers.size - 1, 'rawDescription'],
+                                   rawDescription => rawDescription + '\n' + line);
       }
     }
   });
 
-  if (todoKeywordSets.length === 0) {
+  if (todoKeywordSets.size === 0) {
     todoKeywordSets = defaultKeywordSets;
   }
 
-  headers.forEach(header => {
-    header.description = parseLinks(header.rawDescription);
+  headers = headers.map(header => {
+    return header.set('description', parseLinks(header.get('rawDescription')));
   });
 
-  return {
+  return Immutable.fromJS({
     headers, todoKeywordSets
-  };
+  });
 };
 
 export default parseOrg;

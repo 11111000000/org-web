@@ -116,10 +116,8 @@ const editHeaderTitle = (state, payload) => {
   const headers = state.get('headers');
   const headerIndex = indexOfHeaderWithId(headers, payload.headerId);
 
-  const newTitleLine = parseOrg.parseTitleLine(payload.newTitle,
-                                               state.get('todoKeywordSets').toJS());
-  return state.setIn(['headers', headerIndex, 'titleLine'],
-                     Immutable.fromJS(newTitleLine));
+  const newTitleLine = parseOrg.parseTitleLine(payload.newTitle, state.get('todoKeywordSets'));
+  return state.setIn(['headers', headerIndex, 'titleLine'], newTitleLine);
 };
 
 const editDescription = (state, payload) => {
@@ -128,7 +126,7 @@ const editDescription = (state, payload) => {
 
   return state.updateIn(['headers', headerIndex], header => {
     return header.set('rawDescription', payload.newDescription)
-      .set('description', Immutable.fromJS(parseOrg.parseLinks(payload.newDescription)));
+      .set('description', parseOrg.parseLinks(payload.newDescription));
   });
 };
 
@@ -146,9 +144,9 @@ const addHeader = (state, payload) => {
 
   const subheaders = subheadersOfHeaderWithId(headers, payload.headerId);
 
-  const newHeader = Immutable.fromJS(parseOrg.newHeaderWithTitle('',
-                                                                 header.get('nestingLevel'),
-                                                                 state.get('todoKeywordSets').toJS()));
+  const newHeader = parseOrg.newHeaderWithTitle('',
+                                                header.get('nestingLevel'),
+                                                state.get('todoKeywordSets'));
 
   return state.update('headers',
                       headers => headers.insert(headerIndex + subheaders.size + 1, newHeader));
@@ -287,8 +285,8 @@ const displayFile = (state, payload) => {
 
   return state.set('filePath', payload.filePath)
     .set('fileContents', payload.fileContents)
-    .set('headers', Immutable.fromJS(parsedFile.headers))
-    .set('todoKeywordSets', Immutable.fromJS(parsedFile.todoKeywordSets));
+    .set('headers', parsedFile.get('headers'))
+    .set('todoKeywordSets', parsedFile.get('todoKeywordSets'));
 };
 
 const stopDisplayingFile = (state, payload) => {
@@ -360,8 +358,8 @@ export default (state = new Immutable.Map(), payload) => {
   case 'displayStaticFile':
     const parsedFile = parseOrg.default(payload.staticFileContents);
     return state.set('fileContents', payload.staticFileContents)
-      .set('headers', Immutable.fromJS(parsedFile.headers))
-      .set('todoKeywordSets', Immutable.fromJS(parsedFile.todoKeywordSets));
+      .set('headers', parsedFile.get('headers'))
+      .set('todoKeywordSets', parsedFile.get('todoKeywordSets'));
   case 'enterStaticFileMode':
     return state.set('staticFileMode', true)
       .set('exitButtonTitle', payload.exitButtonTitle);
