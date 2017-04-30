@@ -129,11 +129,11 @@ class HeaderList extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    selectedHeaderId: state.org.get('selectedHeaderId'),
-    inTitleEditMode: state.org.get('inTitleEditMode'),
-    inDescriptionEditMode: state.org.get('inDescriptionEditMode'),
-    bulletStyle: state.org.get('bulletStyle'),
-    headerSpacing: state.org.get('headerSpacing')
+    selectedHeaderId: state.org.present.get('selectedHeaderId'),
+    inTitleEditMode: state.org.present.get('inTitleEditMode'),
+    inDescriptionEditMode: state.org.present.get('inDescriptionEditMode'),
+    bulletStyle: state.org.present.get('bulletStyle'),
+    headerSpacing: state.org.present.get('headerSpacing')
   };
 };
 

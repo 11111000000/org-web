@@ -78,13 +78,13 @@ class OrgWeb extends Component {
 function mapStateToProps(state, props) {
   return {
     dropboxAccessToken: state.dropbox.get('dropboxAccessToken'),
-    fileContents: state.org.get('fileContents'),
-    filePath: state.org.get('filePath'),
-    staticFileMode: state.org.get('staticFileMode'),
+    fileContents: state.org.present.get('fileContents'),
+    filePath: state.org.present.get('filePath'),
+    staticFileMode: state.org.present.get('staticFileMode'),
     loadingMessage: state.base.get('loadingMessage'),
     liveSync: state.dropbox.get('liveSync'),
-    dirty: state.org.get('dirty'),
-    exitButtonTitle: state.org.get('exitButtonTitle')
+    dirty: state.org.present.get('dirty'),
+    exitButtonTitle: state.org.present.get('exitButtonTitle')
   };
 }
 

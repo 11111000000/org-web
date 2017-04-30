@@ -236,13 +236,13 @@ class OrgFile extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    headers: state.org.get('headers'),
-    filePath: state.org.get('filePath'),
-    dirty: state.org.get('dirty'),
-    selectedHeaderId: state.org.get('selectedHeaderId'),
-    staticFileMode: state.org.get('staticFileMode'),
-    inTitleEditMode: state.org.get('inTitleEditMode'),
-    inDescriptionEditMode: state.org.get('inDescriptionEditMode'),
+    headers: state.org.present.get('headers'),
+    filePath: state.org.present.get('filePath'),
+    dirty: state.org.present.get('dirty'),
+    selectedHeaderId: state.org.present.get('selectedHeaderId'),
+    staticFileMode: state.org.present.get('staticFileMode'),
+    inTitleEditMode: state.org.present.get('inTitleEditMode'),
+    inDescriptionEditMode: state.org.present.get('inDescriptionEditMode'),
     liveSync: state.dropbox.get('liveSync')
   };
 }

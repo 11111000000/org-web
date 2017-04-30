@@ -100,9 +100,9 @@ class Settings extends Component {
 function mapStateToProps(state, props) {
   return {
     liveSyncToDropbox: state.dropbox.get('liveSync'),
-    fontSize: state.org.get('fontSize'),
-    bulletStyle: state.org.get('bulletStyle'),
-    headerSpacing: state.org.get('headerSpacing')
+    fontSize: state.org.present.get('fontSize'),
+    bulletStyle: state.org.present.get('bulletStyle'),
+    headerSpacing: state.org.present.get('headerSpacing')
   };
 }
 

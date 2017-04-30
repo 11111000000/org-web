@@ -213,7 +213,7 @@ export const syncChanges = () => {
     dispatch(setDirty(true));
 
     if (getState().dropbox.get('liveSync')) {
-      dispatch(push(getState().org.get('filePath')));
+      dispatch(push(getState().org.present.get('filePath')));
     }
   };
 };

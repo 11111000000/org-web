@@ -102,7 +102,7 @@ class TitleLine extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    isSelected: state.org.get('selectedHeaderId') === props.headerId
+    isSelected: state.org.present.get('selectedHeaderId') === props.headerId
   };
 }
 

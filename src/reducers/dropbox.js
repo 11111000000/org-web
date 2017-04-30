@@ -15,6 +15,8 @@ export default (state = new Immutable.Map(), payload) => {
     return state.set('dropboxAccessToken', null).set('filePath', null);
   case 'setLiveSync':
     return state.set('liveSync', payload.liveSync);
+  case 'setCheckForNewerVersion':
+    return state.set('checkForNewerVersion', payload.checkForNewerVersion);
   default:
     return state;
   }

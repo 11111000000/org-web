@@ -137,12 +137,12 @@ class App extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    filePath: state.org.get('filePath'),
+    filePath: state.org.present.get('filePath'),
     dropboxAccessToken: state.dropbox.get('dropboxAccessToken'),
-    staticFileMode: state.org.get('staticFileMode'),
-    fontSize: state.org.get('fontSize'),
-    latestVersion: state.org.get('latestVersion'),
-    newVersion: state.org.get('newVersion')
+    staticFileMode: state.org.present.get('staticFileMode'),
+    fontSize: state.org.present.get('fontSize'),
+    latestVersion: state.org.present.get('latestVersion'),
+    newVersion: state.org.present.get('newVersion')
   };
 }
 

@@ -8,7 +8,7 @@ export const pushBackup = filePath => {
     const dropbox = new Dropbox({ accessToken: getState().dropbox.get('dropboxAccessToken') });
     dropbox.filesUpload({
       path: filePath + '.org-web-bak',
-      contents: getState().org.get('fileContents'),
+      contents: getState().org.present.get('fileContents'),
       mode: {
         '.tag': 'overwrite'
       },
@@ -97,8 +97,8 @@ export const getFileList = (path = '') => {
 
 export const push = (filePath) => {
   return (dispatch, getState) => {
-    const contents = exportOrg(getState().org.get('headers'),
-                               getState().org.get('todoKeywordSets'));
+    const contents = exportOrg(getState().org.present.get('headers'),
+                               getState().org.present.get('todoKeywordSets'));
 
     dispatch(setLoadingMessage('Pushing...'));
     const dropbox = new Dropbox({ accessToken: getState().dropbox.get('dropboxAccessToken') });

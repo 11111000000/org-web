@@ -56,7 +56,7 @@ export const readInitialState = () => {
 
   let initialState = {
     org: Immutable.fromJS({}),
-    dropbox: Immutable.fromJS({})
+    dropbox:  Immutable.fromJS({})
   };
 
   fields.forEach(field => {
@@ -68,10 +68,18 @@ export const readInitialState = () => {
     } else if (field.type === 'boolean') {
       value = value === 'true';
     }
+
     initialState[field.category] = initialState[field.category].set(field.name, value);
   });
 
-  return initialState;
+  return {
+    dropbox: initialState.dropbox,
+    org: {
+      past: [],
+      present: initialState.org,
+      future: []
+    }
+  };
 };
 
 // Persist some fields to localStorage.
@@ -84,7 +92,7 @@ export const subscribeToChanges = storeInstance => {
     const state = storeInstance.getState();
 
     fields.filter(f => f.category === 'org').map(f => f.name).forEach(field => {
-      localStorage.setItem(field, state.org.get(field));
+      localStorage.setItem(field, state.org.present.get(field));
     });
     fields.filter(f => f.category === 'dropbox').map(f => f.name).forEach(field => {
       localStorage.setItem(field, state.dropbox.get(field));
