@@ -135,6 +135,7 @@ class OrgFile extends Component {
     }
 
     const disabledClass = this.props.selectedHeaderId ? '' : 'btn--disabled';
+    const undoDisabledClass = this.props.historyCount > 0 ? '' : 'btn--disabled';
     const pushPullDisabled = this.props.staticFileMode ? 'btn--disabled' : '';
     const actionDrawerStyle = {
       position: 'fixed',
@@ -190,7 +191,7 @@ class OrgFile extends Component {
         <button className={`fa fa-chevron-right btn btn--circle ${disabledClass}`}
                 style={buttonStyle}
                 onClick={() => this.handleMoveTreeRightClick()}></button>
-        <button className={`fa fa-undo btn btn--circle ${disabledClass}`}
+        <button className={`fa fa-undo btn btn--circle ${undoDisabledClass}`}
                 style={buttonStyle}
                 onClick={() => this.handleUndoClick()}></button>
         {!this.props.liveSync && <button className={`fa fa-cloud-upload btn btn--circle ${pushPullDisabled}`}
