@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as orgActions from '../actions/org';
 import * as dropboxActions from '../actions/dropbox';
+import { ActionCreators } from 'redux-undo';
 import HeaderList from './header_list';
 
 class OrgFile extends Component {
@@ -22,6 +23,7 @@ class OrgFile extends Component {
     this.handleDoneClick = this.handleDoneClick.bind(this);
     this.handlePushClick = this.handlePushClick.bind(this);
     this.handlePullClick = this.handlePullClick.bind(this);
+    this.handleUndoClick = this.handleUndoClick.bind(this);
   }
 
   handleAdvanceTodoClick(headerId) {
@@ -62,6 +64,10 @@ class OrgFile extends Component {
     } else {
       pull();
     }
+  }
+
+  handleUndoClick() {
+    this.props.undoActions.undo();
   }
 
   handleTitleEditModeClick() {
@@ -184,8 +190,11 @@ class OrgFile extends Component {
         <button className={`fa fa-chevron-right btn btn--circle ${disabledClass}`}
                 style={buttonStyle}
                 onClick={() => this.handleMoveTreeRightClick()}></button>
+        <button className={`fa fa-undo btn btn--circle ${disabledClass}`}
+                style={buttonStyle}
+                onClick={() => this.handleUndoClick()}></button>
         {!this.props.liveSync && <button className={`fa fa-cloud-upload btn btn--circle ${pushPullDisabled}`}
-                                         style={buttonStyle}
+                                           style={buttonStyle}
                                          onClick={() => !pushPullDisabled && this.handlePushClick()}></button>}
         <button className={`fa fa-cloud-download btn btn--circle ${pushPullDisabled}`}
                 style={buttonStyle}
@@ -243,14 +252,16 @@ function mapStateToProps(state, props) {
     staticFileMode: state.org.present.get('staticFileMode'),
     inTitleEditMode: state.org.present.get('inTitleEditMode'),
     inDescriptionEditMode: state.org.present.get('inDescriptionEditMode'),
-    liveSync: state.dropbox.get('liveSync')
+    liveSync: state.dropbox.get('liveSync'),
+    historyCount: state.org.past.length
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     orgActions: bindActionCreators(orgActions, dispatch),
-    dropboxActions: bindActionCreators(dropboxActions, dispatch)
+    dropboxActions: bindActionCreators(dropboxActions, dispatch),
+    undoActions: bindActionCreators(ActionCreators, dispatch)
   };
 }
 
