@@ -1,3 +1,5 @@
+* May 6th, 2017
+** Added undo button
 * April 29th, 2017
 ** Backups are now made on first load of a file, rather than with every push. Should speed things up a bit!
 ** Added some nice animations
