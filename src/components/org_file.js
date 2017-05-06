@@ -5,6 +5,7 @@ import * as orgActions from '../actions/org';
 import * as dropboxActions from '../actions/dropbox';
 import { ActionCreators } from 'redux-linear-undo';
 import HeaderList from './header_list';
+import ActionButton from './action_button';
 
 class OrgFile extends Component {
   constructor(props) {
@@ -134,9 +135,8 @@ class OrgFile extends Component {
       );
     }
 
-    const disabledClass = this.props.selectedHeaderId ? '' : 'btn--disabled';
-    const undoDisabledClass = this.props.historyCount > 0 ? '' : 'btn--disabled';
-    const pushPullDisabled = this.props.staticFileMode ? 'btn--disabled' : '';
+    const orgActionsDisabled = this.props.selectedHeaderId === undefined;
+    const pushPullDisabled = this.props.staticFileMode;
     const actionDrawerStyle = {
       position: 'fixed',
       bottom: 10,
@@ -153,53 +153,50 @@ class OrgFile extends Component {
       overflowX: 'auto',
       whiteSpace: 'nowrap'
     };
-    const buttonStyle = {
-      marginRight: 20
-    };
     let actionDrawerContents = (
       <div>
-        <button className={`fa fa-check btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleAdvanceTodoClick()}></button>
-        <button className={`fa fa-pencil btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleTitleEditModeClick()}></button>
-        <button className={`fa fa-pencil-square-o btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleDescriptionEditModeClick()}></button>
-        <button className={`fa fa-plus btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleAddHeaderClick()}></button>
-        <button className={`fa fa-times btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleRemoveHeaderClick()}></button>
-        <button className={`fa fa-arrow-up btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleMoveHeaderUpClick()}></button>
-        <button className={`fa fa-arrow-down btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleMoveHeaderDownClick()}></button>
-        <button className={`fa fa-arrow-left btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleMoveHeaderLeftClick()}></button>
-        <button className={`fa fa-arrow-right btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleMoveHeaderRightClick()}></button>
-        <button className={`fa fa-chevron-left btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleMoveTreeLeftClick()}></button>
-        <button className={`fa fa-chevron-right btn btn--circle ${disabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleMoveTreeRightClick()}></button>
-        <button className={`fa fa-undo btn btn--circle ${undoDisabledClass}`}
-                style={buttonStyle}
-                onClick={() => this.handleUndoClick()}></button>
-        {!this.props.liveSync && <button className={`fa fa-cloud-upload btn btn--circle ${pushPullDisabled}`}
-                                           style={buttonStyle}
-                                         onClick={() => !pushPullDisabled && this.handlePushClick()}></button>}
-        <button className={`fa fa-cloud-download btn btn--circle ${pushPullDisabled}`}
-                style={buttonStyle}
-                onClick={() => !pushPullDisabled && this.handlePullClick()}></button>
+        <ActionButton icon={'check'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleAdvanceTodoClick()} />
+        <ActionButton icon={'pencil'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleTitleEditModeClick()} />
+        <ActionButton icon={'pencil-square-o'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleDescriptionEditModeClick()} />
+        <ActionButton icon={'plus'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleAddHeaderClick()} />
+        <ActionButton icon={'times'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleRemoveHeaderClick()} />
+        <ActionButton icon={'arrow-up'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleMoveHeaderUpClick()} />
+        <ActionButton icon={'arrow-down'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleMoveHeaderDownClick()} />
+        <ActionButton icon={'arrow-left'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleMoveHeaderLeftClick()} />
+        <ActionButton icon={'arrow-right'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleMoveHeaderRightClick()} />
+        <ActionButton icon={'chevron-left'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleMoveTreeLeftClick()} />
+        <ActionButton icon={'chevron-right'}
+                      disabled={orgActionsDisabled}
+                      onClick={() => this.handleMoveTreeRightClick()} />
+        <ActionButton icon={'undo'}
+                      disabled={this.props.historyCount <= 0}
+                      onClick={() => this.handleUndoClick()} />
+        {!this.props.liveSync && <ActionButton icon={'cloud-upload'}
+                                               disabled={pushPullDisabled}
+                                               onClick={() => !pushPullDisabled && this.handlePushClick()} />}
+        <ActionButton icon={'cloud-download'}
+                      disabled={pushPullDisabled}
+                      onClick={() => !pushPullDisabled && this.handlePullClick()} />
       </div>
     );
     if (this.props.inTitleEditMode || this.props.inDescriptionEditMode) {
