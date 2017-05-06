@@ -16,7 +16,7 @@
     "cross-spawn": "4.0.2",
     "css-loader": "0.26.0",
     "detect-port": "1.0.1",
-    "dotenv": "2.0.0",
+    "dotenv": "^4.0.0",
     "eslint": "3.8.1",
     "eslint-config-react-app": "^0.5.0",
     "eslint-loader": "1.6.0",
@@ -56,6 +56,7 @@
     "react-motion": "^0.5.0",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
+    "redux-linear-undo": "^1.0.6",
     "redux-thunk": "^2.2.0",
     "redux-undo": "beta"
   },

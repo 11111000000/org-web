@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as orgActions from '../actions/org';
 import * as dropboxActions from '../actions/dropbox';
-import { ActionCreators } from 'redux-undo';
+import { ActionCreators } from 'redux-linear-undo';
 import HeaderList from './header_list';
 
 class OrgFile extends Component {
