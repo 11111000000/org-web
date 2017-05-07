@@ -1,3 +1,6 @@
+* May 7th, 2017
+** Confirmation is no longer required to remove a header, since its easy to undo now
+** Fixed bug where first action couldn't be undone
 * May 6th, 2017
 ** Added undo button
 * April 29th, 2017
