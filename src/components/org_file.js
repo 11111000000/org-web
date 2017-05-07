@@ -81,10 +81,8 @@ class OrgFile extends Component {
   }
 
   handleRemoveHeaderClick() {
-    if (window.confirm('Are you sure you want to delete this header?')) {
-      this.props.orgActions.removeHeader(this.props.selectedHeaderId);
-      this.props.orgActions.syncChanges();
-    }
+    this.props.orgActions.removeHeader(this.props.selectedHeaderId);
+    this.props.orgActions.syncChanges();
   }
 
   handleMoveHeaderUpClick() {
