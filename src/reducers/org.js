@@ -313,6 +313,10 @@ const setNewVersion = (state, payload) => {
   return state.set('newVersion', payload.newVersion);
 };
 
+const noOp = (state, payload) => {
+  return state.update('noOpCounter', counter => (counter || 0) + 1);
+};
+
 export default (state = new Immutable.Map(), payload) => {
   switch (payload.type) {
   case 'addHeader':
@@ -377,6 +381,8 @@ export default (state = new Immutable.Map(), payload) => {
     return setLatestVersion(state, payload);
   case 'setNewVersion':
     return setNewVersion(state, payload);
+  case 'noOp':
+    return noOp(state, payload);
   default:
     return state;
   }

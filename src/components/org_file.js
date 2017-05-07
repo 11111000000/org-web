@@ -27,6 +27,12 @@ class OrgFile extends Component {
     this.handleUndoClick = this.handleUndoClick.bind(this);
   }
 
+  componentDidMount() {
+    // Send a no-op action to take care of the bug where redux-undo won't allow the first
+    // action to be undone.
+    this.props.orgActions.noOp();
+  }
+
   handleAdvanceTodoClick(headerId) {
     this.props.orgActions.advanceTodoState(this.props.selectedHeaderId);
     this.props.orgActions.syncChanges();

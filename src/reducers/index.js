@@ -6,7 +6,8 @@ import undoable, { includeAction } from 'redux-linear-undo';
 
 const undoableActions = ['addHeader', 'removeHeader', 'moveHeaderUp', 'moveHeaderDown',
                          'moveHeaderLeft', 'moveHeaderRight', 'moveTreeLeft', 'moveTreeRight',
-                         'advanceTodoState', 'editHeaderTitle', 'editHeaderDescription'];
+                         'advanceTodoState', 'editHeaderTitle', 'editHeaderDescription',
+                         'noOp'];
 
 const rootReducer = combineReducers({
   org: undoable(org, { filter: includeAction(undoableActions), linearizeHistory: true }),

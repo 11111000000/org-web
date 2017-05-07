@@ -208,6 +208,12 @@ export const setNewVersion = newVersion => {
   };
 };
 
+export const noOp = () => {
+  return {
+    type: 'noOp'
+  };
+};
+
 export const syncChanges = () => {
   return (dispatch, getState) => {
     dispatch(setDirty(true));
