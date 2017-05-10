@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as orgActions from '../actions/org';
 import TitleLine from './title_line';
 import HeaderContent from './header_content';
+import PressureWrapper from './pressure_wrapper';
 
 class HeaderList extends Component {
   constructor() {
@@ -106,14 +107,17 @@ class HeaderList extends Component {
           <div style={{marginLeft: -16}}>
             {this.props.bulletStyle === 'Fancy' ? '●' : '*'}
           </div>
-          <TitleLine headerId={header.headerId}
-                     title={header.title}
-                     rawTitle={header.rawTitle}
-                     todoKeyword={header.todoKeyword}
-                     opened={header.opened}
-                     hasContent={header.hasContent}
-                     editMode={header.titleEditMode}
-                     color={color} />
+          <PressureWrapper>
+            {(force, deepPressActive) => <TitleLine headerId={header.headerId}
+                                                    title={header.title}
+                                                    rawTitle={header.rawTitle}
+                                                    todoKeyword={header.todoKeyword}
+                                                    opened={header.opened}
+                                                    hasContent={header.hasContent}
+                                                    editMode={header.titleEditMode}
+                                                    color={color}
+                                                    deepPressActive={deepPressActive} />}
+          </PressureWrapper>
           <HeaderContent headerId={header.headerId}
                          opened={header.opened}
                          description={header.description}

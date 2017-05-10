@@ -90,6 +90,10 @@ class TitleLine extends Component {
                         onClick={(event) => this.handleTitleFieldClick(event)} />;
     }
 
+    if (this.props.deepPressActive) {
+      title = 'Force push!';
+    }
+
     return (
       <div className="title-line" onClick={() => this.handleTitleClick()}>
         <div className="header-text">
