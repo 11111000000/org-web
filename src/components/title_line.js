@@ -28,8 +28,13 @@ class TitleLine extends Component {
 
   getTitleValue() {
     let titleValue = this.props.rawTitle;
+
     if (this.props.todoKeyword) {
       titleValue = `${this.props.todoKeyword} ${titleValue}`;
+    }
+
+    if (this.props.tags && this.props.tags.length > 0) {
+      titleValue = `${titleValue} :${this.props.tags.join(':')}:`;
     }
 
     return titleValue;
@@ -69,6 +74,12 @@ class TitleLine extends Component {
 
     const tail = (this.props.opened || !this.props.hasContent) ? '' : '...';
 
+    const tags = this.props.tags.length > 0 && (
+      <div>
+        {this.props.tags.map((tag, index) => <div className='header-tag' key={index}>{tag}</div>)}
+      </div>
+    );
+
     let style = {
       fontWeight: 'bold'
     };
@@ -76,9 +87,12 @@ class TitleLine extends Component {
       style.color = this.props.color;
     }
     let title = (
-      <span style={style}>
-        <AttributedString parts={this.props.title} /> {tail}
-      </span>
+      <div>
+        <span style={style}>
+          <AttributedString parts={this.props.title} /> {tail}
+        </span>
+        {tags}
+      </div>
     );
     if (this.props.editMode) {
       title = <textarea autoFocus
