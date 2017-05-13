@@ -1,3 +1,6 @@
+* May 13th, 2017
+** Display tags more natively
+** Added link to the Github repo - bug reports, feature requests, and pull requests welcome!
 * May 7th, 2017
 ** Confirmation is no longer required to remove a header, since its easy to undo now
 ** Fixed bug where first action couldn't be undone
