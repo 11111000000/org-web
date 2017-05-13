@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AttributedString from './attributed_string';
 import * as orgActions from '../actions/org';
+import '../stylesheets/title_line.css';
 
 class TitleLine extends Component {
   constructor(props) {
