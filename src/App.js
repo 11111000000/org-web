@@ -95,6 +95,14 @@ class App extends Component {
       </div>
     );
 
+    const githubButton = (
+      <div style={{marginLeft: 20}}>
+        <a href="https://github.com/DanielDe/org-web" style={{color: 'white'}} target="_blank">
+          <i className="fa fa-github"></i>
+        </a>
+      </div>
+    );
+
     let settingsButton = null;
     if (this.props.dropboxAccessToken || this.props.staticFileMode) {
       const settingsButtonStyle = {
@@ -126,6 +134,7 @@ class App extends Component {
           <h2 className="app-header__title">org-web</h2>
           {signInButton}
           {changelogButton}
+          {githubButton}
           {settingsButton}
         </div>
 
