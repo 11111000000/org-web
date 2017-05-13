@@ -108,15 +108,20 @@ class HeaderList extends Component {
             {this.props.bulletStyle === 'Fancy' ? '●' : '*'}
           </div>
           <PressureWrapper>
-            {(force, deepPressActive) => <TitleLine headerId={header.headerId}
-                                                    title={header.title}
-                                                    rawTitle={header.rawTitle}
-                                                    todoKeyword={header.todoKeyword}
-                                                    opened={header.opened}
-                                                    hasContent={header.hasContent}
-                                                    editMode={header.titleEditMode}
-                                                    color={color}
-                                                    deepPressActive={deepPressActive} />}
+            {(force, deepPressActive) => {
+              return (
+                <TitleLine headerId={header.headerId}
+                           title={header.title}
+                           rawTitle={header.rawTitle}
+                           todoKeyword={header.todoKeyword}
+                           opened={header.opened}
+                           hasContent={header.hasContent}
+                           editMode={header.titleEditMode}
+                           color={color}
+                           force={force}
+                           deepPressActive={deepPressActive} />
+              );
+            }}
           </PressureWrapper>
           <HeaderContent headerId={header.headerId}
                          opened={header.opened}
