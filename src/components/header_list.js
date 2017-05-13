@@ -41,6 +41,7 @@ class HeaderList extends Component {
         title: header.titleLine.title,
         rawTitle: header.titleLine.rawTitle,
         todoKeyword: header.titleLine.todoKeyword,
+        tags: header.titleLine.tags,
         description: header.description,
         rawDescription: header.rawDescription,
         selected: isSelected,
@@ -110,6 +111,7 @@ class HeaderList extends Component {
                      title={header.title}
                      rawTitle={header.rawTitle}
                      todoKeyword={header.todoKeyword}
+                     tags={header.tags}
                      opened={header.opened}
                      hasContent={header.hasContent}
                      editMode={header.titleEditMode}
