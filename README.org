@@ -17,7 +17,7 @@ To get started, run:
 
 #+BEGIN_SRC
 yarn install
-yarnpkg start
+yarn start
 #+END_SRC
 
 To test against your actual Dropbox, you'll need to create a ~.env~ file with org-web's client ID:
