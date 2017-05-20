@@ -6,7 +6,7 @@ import { rgbaObject, rgbaString } from '../lib/color';
 
 class Header extends Component {
   render() {
-    const { header, force, color, setHeaderRef } = this.props;
+    const { header, force, color, setHeaderRef, headerSpacing, bulletStyle } = this.props;
 
     let backgroundColor = rgbaObject(255, 255, 255, 0);
     if (header.selected) {
@@ -16,14 +16,14 @@ class Header extends Component {
     let style = {
       paddingLeft: 20 * header.nestingLevel,
       marginBottom: 2,
-      marginTop: this.props.headerSpacing === 'Cozy' ? 5 : 25,
+      marginTop: headerSpacing === 'Cozy' ? 5 : 25,
       paddingTop: 5,
       backgroundColor: rgbaString(backgroundColor),
       position: 'relative',
       overflowY: 'hidden'
     };
 
-    const radius = ((window.innerWidth * 1.1) / 2) * this.props.force;
+    const radius = ((window.innerWidth * 1.1) / 2) * force;
     const pressureIndicatorStyle = {
       position: 'absolute',
       width: radius * 2,
@@ -41,7 +41,7 @@ class Header extends Component {
            style={style}>
         <div style={pressureIndicatorStyle}></div>
         <div style={{marginLeft: -16}}>
-          {this.props.bulletStyle === 'Fancy' ? '●' : '*'}
+          {bulletStyle === 'Fancy' ? '●' : '*'}
         </div>
         <TitleLine headerId={header.headerId}
                    title={header.title}

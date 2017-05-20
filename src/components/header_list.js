@@ -93,6 +93,8 @@ class HeaderList extends Component {
         <Header key={header.headerId}
                 header={header}
                 color={color}
+                bulletStyle={this.props.bulletStyle}
+                headerSpacing={this.props.headerSpacing}
                 setHeaderRef={e => {this.headerRefs[header.headerId] = e;}} />
       );
     });
