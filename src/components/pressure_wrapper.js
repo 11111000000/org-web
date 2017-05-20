@@ -32,8 +32,10 @@ class PressureWrapper extends Component {
   }
 
   render() {
+    const {style} = this.props;
+
     return (
-      <div ref={containerDiv => this.containerDiv = containerDiv}>
+      <div ref={containerDiv => this.containerDiv = containerDiv} style={style}>
         {this.props.children(this.state.force, this.state.deepPressActive)}
       </div>
     );

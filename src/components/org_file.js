@@ -6,6 +6,7 @@ import * as dropboxActions from '../actions/dropbox';
 import { ActionCreators } from 'redux-linear-undo';
 import HeaderList from './header_list';
 import ActionButton from './action_button';
+import PressureActionButton from './pressure_action_button';
 
 class OrgFile extends Component {
   constructor(props) {
@@ -168,9 +169,9 @@ class OrgFile extends Component {
         <ActionButton icon={'pencil-square-o'}
                       disabled={orgActionsDisabled}
                       onClick={() => this.handleDescriptionEditModeClick()} />
-        <ActionButton icon={'plus'}
-                      disabled={orgActionsDisabled}
-                      onClick={() => this.handleAddHeaderClick()} />
+        <PressureActionButton icon={'plus'}
+                              disabled={orgActionsDisabled}
+                              onClick={() => this.handleAddHeaderClick()} />
         <ActionButton icon={'times'}
                       disabled={orgActionsDisabled}
                       onClick={() => this.handleRemoveHeaderClick()} />
