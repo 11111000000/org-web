@@ -16,7 +16,7 @@ class Header extends Component {
     let style = {
       paddingLeft: 20 * header.nestingLevel,
       marginBottom: 2,
-      marginTop: headerSpacing === 'Cozy' ? 5 : 25,
+      marginTop: headerSpacing === 'Spacious' ? 25 : 5,
       paddingTop: 5,
       backgroundColor: rgbaString(backgroundColor),
       position: 'relative',
