@@ -208,6 +208,13 @@ export const setNewVersion = newVersion => {
   };
 };
 
+export const setAddHeaderSubActionsVisible = visible => {
+  return {
+    type: 'setAddHeaderSubActionsVisible',
+    visible
+  };
+};
+
 export const noOp = () => {
   return {
     type: 'noOp'

@@ -4,14 +4,18 @@ import withPressureWrapper from './pressure_wrapper';
 
 class PressureActionButton extends Component {
   componentWillReceiveProps(newProps) {
-
+    if (newProps.deepPressActive && !this.props.deepPressActive) {
+      this.props.onDeepPressStart();
+    }
   }
 
-  styleWithForce(force) {
+  render() {
+    const { force, subActionsVisible, children } = this.props;
+
     const radius = (window.innerWidth * 1.1) * force;
     const opacity = 1.0 - 0.5 * force;
 
-    return {
+    const pressureIndicatorStyle = {
       position: 'absolute',
       backgroundColor: '#3d696a',
       width: radius * 2,
@@ -21,13 +25,12 @@ class PressureActionButton extends Component {
       top: `calc(50% - ${radius}px)`,
       opacity
     };
-  }
 
-  render() {
     return (
       <div style={{position: 'relative'}}>
         <ActionButton {...this.props} />
-        <div style={this.styleWithForce(this.props.force)}></div>
+        {!subActionsVisible && <div style={pressureIndicatorStyle}></div>}
+        {subActionsVisible && children}
       </div>
     );
   }

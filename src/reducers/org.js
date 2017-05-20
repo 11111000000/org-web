@@ -313,11 +313,26 @@ const setNewVersion = (state, payload) => {
   return state.set('newVersion', payload.newVersion);
 };
 
+const setAddHeaderSubActionsVisible = (state, payload) => {
+  const { visible } = payload;
+  return state.set('addHeaderSubActionsVisible', visible).set('subActionsVisible', visible);
+};
+
+const resetAddHeaderSubActionsVisible = (state, payload) => {
+  if (payload.type !== 'setAddHeaderSubActionsVisible' && state.get('addHeaderSubActionsVisible')) {
+    return state.set('addHeaderSubActionsVisible', false).set('subActionsVisible', false);
+  }
+
+  return state;
+};
+
 const noOp = (state, payload) => {
   return state.update('noOpCounter', counter => (counter || 0) + 1);
 };
 
 export default (state = new Immutable.Map(), payload) => {
+  state = resetAddHeaderSubActionsVisible(state, payload);
+
   switch (payload.type) {
   case 'addHeader':
     return addHeader(state, payload);
@@ -381,6 +396,8 @@ export default (state = new Immutable.Map(), payload) => {
     return setLatestVersion(state, payload);
   case 'setNewVersion':
     return setNewVersion(state, payload);
+  case 'setAddHeaderSubActionsVisible':
+    return setAddHeaderSubActionsVisible(state, payload);
   case 'noOp':
     return noOp(state, payload);
   default:

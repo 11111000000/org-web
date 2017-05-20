@@ -8,6 +8,11 @@
     text-align: center;
 }
 
+.sub-actions-container {
+    position: absolute;
+    bottom: 70px;
+}
+
 .edit-icon {
     flex: 0 0 40px;
 }

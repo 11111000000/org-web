@@ -9,29 +9,36 @@ import ActionButton from './action_button';
 import PressureActionButton from './pressure_action_button';
 
 class OrgFile extends Component {
-  constructor(props) {
-    super(props);
-    this.handleAdvanceTodoClick = this.handleAdvanceTodoClick.bind(this);
-    this.handleAddHeaderClick = this.handleAddHeaderClick.bind(this);
-    this.handleTitleEditModeClick = this.handleTitleEditModeClick.bind(this);
-    this.handleDescriptionEditModeClick = this.handleDescriptionEditModeClick.bind(this);
-    this.handleRemoveHeaderClick = this.handleRemoveHeaderClick.bind(this);
-    this.handleMoveHeaderUpClick = this.handleMoveHeaderUpClick.bind(this);
-    this.handleMoveHeaderDownClick = this.handleMoveHeaderDownClick.bind(this);
-    this.handleMoveHeaderLeftClick = this.handleMoveHeaderLeftClick.bind(this);
-    this.handleMoveHeaderRightClick = this.handleMoveHeaderRightClick.bind(this);
-    this.handleMoveTreeLeftClick = this.handleMoveTreeLeftClick.bind(this);
-    this.handleMoveTreeRightClick = this.handleMoveTreeRightClick.bind(this);
-    this.handleDoneClick = this.handleDoneClick.bind(this);
-    this.handlePushClick = this.handlePushClick.bind(this);
-    this.handlePullClick = this.handlePullClick.bind(this);
-    this.handleUndoClick = this.handleUndoClick.bind(this);
-  }
-
   componentDidMount() {
     // Send a no-op action to take care of the bug where redux-undo won't allow the first
     // action to be undone.
     this.props.orgActions.noOp();
+  }
+
+  handleActionDrawerTouchMove() {
+    return event => {
+      if (this.props.subActionsVisible) {
+        event.preventDefault();
+      }
+    };
+  }
+
+  // When sub actions are activated with a deep press, and the user drags their finger to one
+  // of the sub actions and releases, the onTouchEnd event is still triggered on the base
+  // PressureActionButton, instead of the sub action button. So this is a hack to determine
+  // where the touch actually ended, and trigger the appropriate action accordingly.
+  handlePressureButtonTouchEnd() {
+    return event => {
+      const { clientX, clientY } = event.changedTouches[0];
+      const touchedElement = document.elementFromPoint(clientX, clientY);
+
+      if (touchedElement.attributes['handler-name']) {
+        const handlerName = touchedElement.attributes['handler-name'].value;
+        if (this[handlerName]) {
+          this[handlerName]();
+        }
+      }
+    };
   }
 
   handleAdvanceTodoClick(headerId) {
@@ -45,6 +52,10 @@ class OrgFile extends Component {
 
     this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
     this.props.orgActions.enterTitleEditMode();
+  }
+
+  handleAddTodoHeaderClick() {
+    console.log('add todo header hclick');
   }
 
   handleDoneClick() {
@@ -122,6 +133,12 @@ class OrgFile extends Component {
     this.props.orgActions.syncChanges();
   }
 
+  handleAddHeaderDeepPressStart() {
+    return () => {
+      this.props.orgActions.setAddHeaderSubActionsVisible(true);
+    };
+  }
+
   render() {
     let dirtyIndicator = '';
     if (this.props.dirty && !this.props.staticFileMode) {
@@ -142,7 +159,7 @@ class OrgFile extends Component {
 
     const orgActionsDisabled = this.props.selectedHeaderId === undefined;
     const pushPullDisabled = this.props.staticFileMode;
-    const actionDrawerStyle = {
+    let actionDrawerStyle = {
       position: 'fixed',
       bottom: 10,
       left: 10,
@@ -158,8 +175,14 @@ class OrgFile extends Component {
       overflowX: 'auto',
       whiteSpace: 'nowrap'
     };
+
+    if (this.props.addHeaderSubActionsVisible) {
+      actionDrawerStyle.height = 150;
+      actionDrawerStyle.paddingTop = 80;
+    }
+
     let actionDrawerContents = (
-      <div>
+      <div onTouchMove={this.handleActionDrawerTouchMove()}>
         <ActionButton icon={'check'}
                       disabled={orgActionsDisabled}
                       onClick={() => this.handleAdvanceTodoClick()} />
@@ -171,7 +194,18 @@ class OrgFile extends Component {
                       onClick={() => this.handleDescriptionEditModeClick()} />
         <PressureActionButton icon={'plus'}
                               disabled={orgActionsDisabled}
-                              onClick={() => this.handleAddHeaderClick()} />
+                              onClick={() => this.handleAddHeaderClick()}
+                              handlerName='handleAddHeaderClick'
+                              onTouchEnd={this.handlePressureButtonTouchEnd()}
+                              onDeepPressStart={this.handleAddHeaderDeepPressStart()}
+                              subActionsVisible={this.props.addHeaderSubActionsVisible}>
+          <div className='sub-actions-container'>
+            <ActionButton icon={'check-square-o'}
+                          disabled={orgActionsDisabled}
+                          onClick={() => this.handleAddTodoHeaderClick()}
+                          handlerName='handleAddTodoHeaderClick' />
+          </div>
+        </PressureActionButton>
         <ActionButton icon={'times'}
                       disabled={orgActionsDisabled}
                       onClick={() => this.handleRemoveHeaderClick()} />
@@ -256,7 +290,9 @@ function mapStateToProps(state, props) {
     inTitleEditMode: state.org.present.get('inTitleEditMode'),
     inDescriptionEditMode: state.org.present.get('inDescriptionEditMode'),
     liveSync: state.dropbox.get('liveSync'),
-    historyCount: state.org.past.length
+    historyCount: state.org.past.length,
+    subActionsVisible: state.org.present.get('subActionsVisible'),
+    addHeaderSubActionsVisible: state.org.present.get('addHeaderSubActionsVisible')
   };
 }
 
