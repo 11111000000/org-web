@@ -55,7 +55,10 @@ class OrgFile extends Component {
   }
 
   handleAddTodoHeaderClick() {
-    console.log('add todo header hclick');
+    this.props.orgActions.addHeader(this.props.selectedHeaderId, true);
+    this.props.orgActions.syncChanges();
+    this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
+    this.props.orgActions.enterTitleEditMode();
   }
 
   handleDoneClick() {

@@ -61,6 +61,12 @@ class TitleLine extends Component {
     this.props.actions.toggleTitleEditMode();
   }
 
+  handleTextareaFocus() {
+    return event => {
+      event.target.selectionStart = event.target.selectionEnd = event.target.value.length;
+    };
+  }
+
   render() {
     let todo = '';
     const todoKeyword = this.props.todoKeyword;
@@ -99,6 +105,7 @@ class TitleLine extends Component {
                         rows="2"
                         value={this.state.titleValue}
                         onBlur={() => this.handleTextareaBlur()}
+                        onFocus={this.handleTextareaFocus()}
                         onChange={this.handleTitleChange}
                         onClick={(event) => this.handleTitleFieldClick(event)} />;
     }

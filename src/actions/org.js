@@ -1,9 +1,10 @@
 import { push } from './dropbox';
 
-export const addHeader = (headerId) => {
+export const addHeader = (headerId, withTodo = false) => {
   return {
     type: 'addHeader',
-    headerId
+    headerId,
+    withTodo
   };
 };
 

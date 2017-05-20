@@ -144,9 +144,14 @@ const addHeader = (state, payload) => {
 
   const subheaders = subheadersOfHeaderWithId(headers, payload.headerId);
 
-  const newHeader = parseOrg.newHeaderWithTitle('',
-                                                header.get('nestingLevel'),
-                                                state.get('todoKeywordSets'));
+  let newHeader = parseOrg.newHeaderWithTitle('',
+                                              header.get('nestingLevel'),
+                                              state.get('todoKeywordSets'));
+
+  if (payload.withTodo) {
+    const todoKeyword = state.get('todoKeywordSets').first().getIn(['keywords', 0]);
+    newHeader = newHeader.setIn(['titleLine', 'todoKeyword'], todoKeyword);
+  }
 
   return state.update('headers',
                       headers => headers.insert(headerIndex + subheaders.size + 1, newHeader));
