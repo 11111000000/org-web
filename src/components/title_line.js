@@ -61,6 +61,12 @@ class TitleLine extends Component {
     this.props.actions.toggleTitleEditMode();
   }
 
+  handleTextareaFocus() {
+    return event => {
+      event.target.selectionStart = event.target.selectionEnd = event.target.value.length;
+    };
+  }
+
   render() {
     let todo = '';
     const todoKeyword = this.props.todoKeyword;
@@ -81,15 +87,13 @@ class TitleLine extends Component {
       </div>
     );
 
-    let style = {
-      fontWeight: 'bold'
+    let titleStyle = {
+      fontWeight: 'bold',
+      color: this.props.color
     };
-    if (this.props.color) {
-      style.color = this.props.color;
-    }
     let title = (
       <div>
-        <span style={style}>
+        <span style={titleStyle}>
           <AttributedString parts={this.props.title} /> {tail}
         </span>
         {tags}
@@ -101,6 +105,7 @@ class TitleLine extends Component {
                         rows="2"
                         value={this.state.titleValue}
                         onBlur={() => this.handleTextareaBlur()}
+                        onFocus={this.handleTextareaFocus()}
                         onChange={this.handleTitleChange}
                         onClick={(event) => this.handleTitleFieldClick(event)} />;
     }

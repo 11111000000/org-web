@@ -6,31 +6,40 @@ import * as dropboxActions from '../actions/dropbox';
 import { ActionCreators } from 'redux-linear-undo';
 import HeaderList from './header_list';
 import ActionButton from './action_button';
+import PressureActionButton from './pressure_action_button';
+import { Motion, spring } from 'react-motion';
 
 class OrgFile extends Component {
-  constructor(props) {
-    super(props);
-    this.handleAdvanceTodoClick = this.handleAdvanceTodoClick.bind(this);
-    this.handleAddHeaderClick = this.handleAddHeaderClick.bind(this);
-    this.handleTitleEditModeClick = this.handleTitleEditModeClick.bind(this);
-    this.handleDescriptionEditModeClick = this.handleDescriptionEditModeClick.bind(this);
-    this.handleRemoveHeaderClick = this.handleRemoveHeaderClick.bind(this);
-    this.handleMoveHeaderUpClick = this.handleMoveHeaderUpClick.bind(this);
-    this.handleMoveHeaderDownClick = this.handleMoveHeaderDownClick.bind(this);
-    this.handleMoveHeaderLeftClick = this.handleMoveHeaderLeftClick.bind(this);
-    this.handleMoveHeaderRightClick = this.handleMoveHeaderRightClick.bind(this);
-    this.handleMoveTreeLeftClick = this.handleMoveTreeLeftClick.bind(this);
-    this.handleMoveTreeRightClick = this.handleMoveTreeRightClick.bind(this);
-    this.handleDoneClick = this.handleDoneClick.bind(this);
-    this.handlePushClick = this.handlePushClick.bind(this);
-    this.handlePullClick = this.handlePullClick.bind(this);
-    this.handleUndoClick = this.handleUndoClick.bind(this);
-  }
-
   componentDidMount() {
     // Send a no-op action to take care of the bug where redux-undo won't allow the first
     // action to be undone.
     this.props.orgActions.noOp();
+  }
+
+  handleActionDrawerTouchMove() {
+    return event => {
+      if (this.props.subActionsVisible) {
+        event.preventDefault();
+      }
+    };
+  }
+
+  // When sub actions are activated with a deep press, and the user drags their finger to one
+  // of the sub actions and releases, the onTouchEnd event is still triggered on the base
+  // PressureActionButton, instead of the sub action button. So this is a hack to determine
+  // where the touch actually ended, and trigger the appropriate action accordingly.
+  handlePressureButtonTouchEnd() {
+    return event => {
+      const { clientX, clientY } = event.changedTouches[0];
+      const touchedElement = document.elementFromPoint(clientX, clientY);
+
+      if (touchedElement.attributes['handler-name']) {
+        const handlerName = touchedElement.attributes['handler-name'].value;
+        if (this[handlerName]) {
+          this[handlerName]();
+        }
+      }
+    };
   }
 
   handleAdvanceTodoClick(headerId) {
@@ -42,6 +51,13 @@ class OrgFile extends Component {
     this.props.orgActions.addHeader(this.props.selectedHeaderId);
     this.props.orgActions.syncChanges();
 
+    this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
+    this.props.orgActions.enterTitleEditMode();
+  }
+
+  handleAddTodoHeaderClick() {
+    this.props.orgActions.addHeader(this.props.selectedHeaderId, true);
+    this.props.orgActions.syncChanges();
     this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
     this.props.orgActions.enterTitleEditMode();
   }
@@ -121,6 +137,12 @@ class OrgFile extends Component {
     this.props.orgActions.syncChanges();
   }
 
+  handleAddHeaderDeepPressStart() {
+    return () => {
+      this.props.orgActions.setAddHeaderSubActionsVisible(true);
+    };
+  }
+
   render() {
     let dirtyIndicator = '';
     if (this.props.dirty && !this.props.staticFileMode) {
@@ -146,19 +168,24 @@ class OrgFile extends Component {
       bottom: 10,
       left: 10,
       right: 10,
-      height: 80,
       border: '1px solid lightgray',
       backgroundColor: 'white',
       boxShadow: '2px 2px 5px 0px rgba(148,148,148,0.75)',
-      paddingTop: 9,
       paddingBottom: 6,
       paddingLeft: 20,
       boxSizing: 'border-box',
       overflowX: 'auto',
       whiteSpace: 'nowrap'
     };
-    let actionDrawerContents = (
-      <div>
+
+    const animatedActionDrawerStyles = {
+      height: spring(this.props.addHeaderSubActionsVisible ? 150 : 80, {stiffness: 300}),
+      paddingTop: spring(this.props.addHeaderSubActionsVisible ? 80 : 9, {stiffness: 300}),
+      scale: spring(this.props.addHeaderSubActionsVisible ? 1 : 0, {stiffness: 300})
+    };
+
+    let actionDrawerContents = scale => (
+      <div onTouchMove={this.handleActionDrawerTouchMove()}>
         <ActionButton icon={'check'}
                       disabled={orgActionsDisabled}
                       onClick={() => this.handleAdvanceTodoClick()} />
@@ -168,9 +195,21 @@ class OrgFile extends Component {
         <ActionButton icon={'pencil-square-o'}
                       disabled={orgActionsDisabled}
                       onClick={() => this.handleDescriptionEditModeClick()} />
-        <ActionButton icon={'plus'}
-                      disabled={orgActionsDisabled}
-                      onClick={() => this.handleAddHeaderClick()} />
+        <PressureActionButton icon={'plus'}
+                              disabled={orgActionsDisabled}
+                              onClick={() => this.handleAddHeaderClick()}
+                              handlerName='handleAddHeaderClick'
+                              onTouchEnd={this.handlePressureButtonTouchEnd()}
+                              onDeepPressStart={this.handleAddHeaderDeepPressStart()}
+                              subActionsVisible={this.props.addHeaderSubActionsVisible}>
+          <div className='sub-actions-container'>
+            <ActionButton icon={'check-square-o'}
+                          disabled={orgActionsDisabled}
+                          onClick={() => this.handleAddTodoHeaderClick()}
+                          handlerName='handleAddTodoHeaderClick'
+                          scale={scale} />
+          </div>
+        </PressureActionButton>
         <ActionButton icon={'times'}
                       disabled={orgActionsDisabled}
                       onClick={() => this.handleRemoveHeaderClick()} />
@@ -209,16 +248,20 @@ class OrgFile extends Component {
         height: '100%',
         marginLeft: -10
       };
-      actionDrawerContents = (
+      actionDrawerContents = () => (
         <button className="btn"
                 style={doneButtonStyle}
                 onClick={() => this.handleDoneClick()}>Done</button>
       );
     }
     const actionDrawer = (
-      <div style={actionDrawerStyle} className="nice-scroll">
-        {actionDrawerContents}
-      </div>
+      <Motion style={animatedActionDrawerStyles}>
+        {animatedStyles => (
+          <div style={Object.assign(actionDrawerStyle, animatedStyles)} className="nice-scroll">
+            {actionDrawerContents(animatedStyles.scale)}
+          </div>
+        )}
+      </Motion>
     );
 
     let parsingError = this.props.headers.size === 0;
@@ -255,7 +298,9 @@ function mapStateToProps(state, props) {
     inTitleEditMode: state.org.present.get('inTitleEditMode'),
     inDescriptionEditMode: state.org.present.get('inDescriptionEditMode'),
     liveSync: state.dropbox.get('liveSync'),
-    historyCount: state.org.past.length
+    historyCount: state.org.past.length,
+    subActionsVisible: state.org.present.get('subActionsVisible'),
+    addHeaderSubActionsVisible: state.org.present.get('addHeaderSubActionsVisible')
   };
 }
 

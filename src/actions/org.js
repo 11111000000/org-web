@@ -1,9 +1,10 @@
 import { push } from './dropbox';
 
-export const addHeader = (headerId) => {
+export const addHeader = (headerId, withTodo = false) => {
   return {
     type: 'addHeader',
-    headerId
+    headerId,
+    withTodo
   };
 };
 
@@ -205,6 +206,13 @@ export const setNewVersion = newVersion => {
   return {
     type: 'setNewVersion',
     newVersion
+  };
+};
+
+export const setAddHeaderSubActionsVisible = visible => {
+  return {
+    type: 'setAddHeaderSubActionsVisible',
+    visible
   };
 };
 
