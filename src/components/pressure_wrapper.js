@@ -28,7 +28,7 @@ class PressureWrapper extends Component {
       endDeepPress: () => {
         this.setState({ deepPressActive: false });
       }
-    });
+    }, {polyfill: false});
   }
 
   render() {

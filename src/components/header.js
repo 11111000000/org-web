@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import TitleLine from './title_line';
 import HeaderContent from './header_content';
-import { interpolateColors, rgbaObject, rgbaString } from '../lib/color';
+import { rgbaObject, rgbaString } from '../lib/color';
 
 class Header extends Component {
   render() {
     const { header, force, color, setHeaderRef } = this.props;
 
     let backgroundColor = rgbaObject(255, 255, 255, 0);
-    const pressureColor = rgbaObject(61, 105, 106, 1);
     if (header.selected) {
       backgroundColor = rgbaObject(239, 255, 0, 0.28);
     }
-    // backgroundColor = interpolateColors(backgroundColor, pressureColor, force);
 
     let style = {
       paddingLeft: 20 * header.nestingLevel,
@@ -24,7 +22,7 @@ class Header extends Component {
       overflowY: 'hidden'
     };
 
-    const radius = (window.innerWidth * 1.1) / 2 * this.props.force;
+    const radius = ((window.innerWidth * 1.1) / 2) * this.props.force;
     const pressureIndicatorStyle = {
       position: 'absolute',
       width: radius * 2,
