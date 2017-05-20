@@ -1,3 +1,7 @@
+html {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 .app-container {
     font-size: 16px;
 }

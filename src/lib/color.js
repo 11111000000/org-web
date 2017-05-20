@@ -8,7 +8,7 @@ export const interpolateColors = (colorA, colorB, interpolationFactor) => {
     r: parseInt((colorB.r - colorA.r) * interpolationFactor + colorA.r, 10),
     g: parseInt((colorB.g - colorA.g) * interpolationFactor + colorA.g, 10),
     b: parseInt((colorB.b - colorA.b) * interpolationFactor + colorA.b, 10),
-    a: parseInt((colorB.a - colorA.a) * interpolationFactor + colorA.a, 10)
+    a: (colorB.a - colorA.a) * interpolationFactor + colorA.a
   };
 };
 

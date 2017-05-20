@@ -1,7 +1,7 @@
 /* globals Dropbox, FileReader */
 import { displayFile, stopDisplayingFile, setDirty } from './org';
 import { setLoadingMessage } from './base';
-import exportOrg from '../export_org';
+import exportOrg from '../lib/export_org';
 
 export const pushBackup = filePath => {
   return (dispatch, getState) => {

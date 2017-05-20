@@ -15,6 +15,10 @@ const exportOrg = (headers, todoKeywordSets) => {
     }
     contents += ` ${header.titleLine.rawTitle}`;
 
+    if (header.titleLine.tags.length > 0) {
+      contents += ` :${header.titleLine.tags.join(':')}:`;
+    }
+
     if (header.description) {
       contents += header.rawDescription;
     }

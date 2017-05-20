@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as orgActions from '../actions/org';
-import TitleLine from './title_line';
-import HeaderContent from './header_content';
+import Header from './header';
 import PressureWrapper from './pressure_wrapper';
 
 class HeaderList extends Component {
@@ -42,6 +41,7 @@ class HeaderList extends Component {
         title: header.titleLine.title,
         rawTitle: header.titleLine.rawTitle,
         todoKeyword: header.titleLine.todoKeyword,
+        tags: header.titleLine.tags,
         description: header.description,
         rawDescription: header.rawDescription,
         selected: isSelected,
@@ -88,47 +88,17 @@ class HeaderList extends Component {
     const headerListElements = headerData.filter(header => {
       return header.displayed;
     }).map((header, index) => {
-      let style = {
-        paddingLeft: 20 * header.nestingLevel,
-        marginBottom: 2,
-        marginTop: this.props.headerSpacing === 'Cozy' ? 5 : 25,
-        paddingTop: 5
-      };
-      if (header.selected) {
-        style.backgroundColor = 'rgba(239, 255, 0, 0.28)';
-      }
       const color = headerColors[(header.nestingLevel - 1) % headerColors.length];
 
       return (
-        <div className="org-header"
-             key={header.headerId}
-             ref={(e) => {this.headerRefs[header.headerId] = e;}}
-             style={style}>
-          <div style={{marginLeft: -16}}>
-            {this.props.bulletStyle === 'Fancy' ? '●' : '*'}
-          </div>
-          <PressureWrapper>
-            {(force, deepPressActive) => {
-              return (
-                <TitleLine headerId={header.headerId}
-                           title={header.title}
-                           rawTitle={header.rawTitle}
-                           todoKeyword={header.todoKeyword}
-                           opened={header.opened}
-                           hasContent={header.hasContent}
-                           editMode={header.titleEditMode}
-                           color={color}
+        <PressureWrapper key={header.headerId}>
+          {(force, deepPressActive) => {
+            return <Header header={header}
                            force={force}
-                           deepPressActive={deepPressActive} />
-              );
-            }}
-          </PressureWrapper>
-          <HeaderContent headerId={header.headerId}
-                         opened={header.opened}
-                         description={header.description}
-                         rawDescription={header.rawDescription}
-                         editMode={header.descriptionEditMode} />
-        </div>
+                           color={color}
+                           setHeaderRef={e => {this.headerRefs[header.headerId] = e;}} />;
+          }}
+        </PressureWrapper>
       );
     });
 

@@ -80,9 +80,21 @@ export const parseTitleLine = (titleLine, todoKeywordSets) => {
   if (todoKeyword) {
     rawTitle = rawTitle.substr(todoKeyword.length + 1);
   }
+
+  // Check for tags.
+  let tags = [];
+  if (rawTitle.trimRight().endsWith(':')) {
+    const titleParts = rawTitle.trimRight().split(' ');
+    const possibleTags = titleParts[titleParts.length - 1];
+    if (/^:[^\s]+:$/.test(possibleTags)) {
+      rawTitle = rawTitle.substr(0, rawTitle.length - possibleTags.length);
+      tags = possibleTags.split(':').filter(tag => tag !== '');
+    }
+  }
+
   const title = parseLinks(rawTitle);
 
-  return Immutable.fromJS({ title, rawTitle, todoKeyword });
+  return Immutable.fromJS({ title, rawTitle, todoKeyword, tags });
 };
 
 export const newHeaderWithTitle = (line, nestingLevel, todoKeywordSets) => {
