@@ -16,13 +16,18 @@ class ActionButton extends Component {
   }
 
   render() {
-    const {disabled, icon, onClick, onTouchEnd} = this.props;
+    const {disabled, icon, onClick, onTouchEnd, scale} = this.props;
 
     const disabledClass = disabled ? 'btn--disabled' : '';
 
+    const style = {
+      marginRight: 20,
+      transform: scale ? `scale(${scale})` : null
+    };
+
     return (
       <button className={`fa fa-${icon} btn btn--circle ${disabledClass}`}
-              style={{marginRight: 20}}
+              style={style}
               onClick={onClick}
               ref={button => this.button = button}
               onTouchEnd={onTouchEnd ? onTouchEnd : () => {}} />

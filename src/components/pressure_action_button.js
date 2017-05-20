@@ -12,7 +12,7 @@ class PressureActionButton extends Component {
   render() {
     const { force, subActionsVisible, children } = this.props;
 
-    const radius = (window.innerWidth * 1.1) * force;
+    const radius = window.innerWidth * 1.8 * force;
     const opacity = 1.0 - 0.5 * force;
 
     const pressureIndicatorStyle = {

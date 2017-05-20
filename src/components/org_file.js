@@ -7,6 +7,7 @@ import { ActionCreators } from 'redux-linear-undo';
 import HeaderList from './header_list';
 import ActionButton from './action_button';
 import PressureActionButton from './pressure_action_button';
+import { Motion, spring } from 'react-motion';
 
 class OrgFile extends Component {
   componentDidMount() {
@@ -162,16 +163,14 @@ class OrgFile extends Component {
 
     const orgActionsDisabled = this.props.selectedHeaderId === undefined;
     const pushPullDisabled = this.props.staticFileMode;
-    let actionDrawerStyle = {
+    const actionDrawerStyle = {
       position: 'fixed',
       bottom: 10,
       left: 10,
       right: 10,
-      height: 80,
       border: '1px solid lightgray',
       backgroundColor: 'white',
       boxShadow: '2px 2px 5px 0px rgba(148,148,148,0.75)',
-      paddingTop: 9,
       paddingBottom: 6,
       paddingLeft: 20,
       boxSizing: 'border-box',
@@ -179,12 +178,13 @@ class OrgFile extends Component {
       whiteSpace: 'nowrap'
     };
 
-    if (this.props.addHeaderSubActionsVisible) {
-      actionDrawerStyle.height = 150;
-      actionDrawerStyle.paddingTop = 80;
-    }
+    const animatedActionDrawerStyles = {
+      height: spring(this.props.addHeaderSubActionsVisible ? 150 : 80, {stiffness: 300}),
+      paddingTop: spring(this.props.addHeaderSubActionsVisible ? 80 : 9, {stiffness: 300}),
+      scale: spring(this.props.addHeaderSubActionsVisible ? 1 : 0, {stiffness: 300})
+    };
 
-    let actionDrawerContents = (
+    let actionDrawerContents = scale => (
       <div onTouchMove={this.handleActionDrawerTouchMove()}>
         <ActionButton icon={'check'}
                       disabled={orgActionsDisabled}
@@ -206,7 +206,8 @@ class OrgFile extends Component {
             <ActionButton icon={'check-square-o'}
                           disabled={orgActionsDisabled}
                           onClick={() => this.handleAddTodoHeaderClick()}
-                          handlerName='handleAddTodoHeaderClick' />
+                          handlerName='handleAddTodoHeaderClick'
+                          scale={scale} />
           </div>
         </PressureActionButton>
         <ActionButton icon={'times'}
@@ -247,16 +248,20 @@ class OrgFile extends Component {
         height: '100%',
         marginLeft: -10
       };
-      actionDrawerContents = (
+      actionDrawerContents = () => (
         <button className="btn"
                 style={doneButtonStyle}
                 onClick={() => this.handleDoneClick()}>Done</button>
       );
     }
     const actionDrawer = (
-      <div style={actionDrawerStyle} className="nice-scroll">
-        {actionDrawerContents}
-      </div>
+      <Motion style={animatedActionDrawerStyles}>
+        {animatedStyles => (
+          <div style={Object.assign(actionDrawerStyle, animatedStyles)} className="nice-scroll">
+            {actionDrawerContents(animatedStyles.scale)}
+          </div>
+        )}
+      </Motion>
     );
 
     let parsingError = this.props.headers.size === 0;
