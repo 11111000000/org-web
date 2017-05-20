@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as orgActions from '../actions/org';
 import Header from './header';
-import PressureWrapper from './pressure_wrapper';
 
 class HeaderList extends Component {
   constructor() {
@@ -91,14 +90,10 @@ class HeaderList extends Component {
       const color = headerColors[(header.nestingLevel - 1) % headerColors.length];
 
       return (
-        <PressureWrapper key={header.headerId}>
-          {(force, deepPressActive) => {
-            return <Header header={header}
-                           force={force}
-                           color={color}
-                           setHeaderRef={e => {this.headerRefs[header.headerId] = e;}} />;
-          }}
-        </PressureWrapper>
+        <Header key={header.headerId}
+                header={header}
+                color={color}
+                setHeaderRef={e => {this.headerRefs[header.headerId] = e;}} />
       );
     });
 

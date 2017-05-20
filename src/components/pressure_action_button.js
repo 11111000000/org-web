@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import ActionButton from './action_button';
-import PressureWrapper from './pressure_wrapper';
+import withPressureWrapper from './pressure_wrapper';
 
 class PressureActionButton extends Component {
+  componentWillReceiveProps(newProps) {
+
+  }
+
   styleWithForce(force) {
     const radius = (window.innerWidth * 1.1) * force;
     const opacity = 1.0 - 0.5 * force;
@@ -20,21 +24,13 @@ class PressureActionButton extends Component {
   }
 
   render() {
-    const wrapperStyle = {
-      display: 'inline-block'
-    };
-
     return (
-      <PressureWrapper style={wrapperStyle}>
-        {(force, deepPressActive) => (
-          <div style={{position: 'relative'}}>
-            <ActionButton {...this.props} />
-            <div style={this.styleWithForce(force)}></div>
-          </div>
-        )}
-      </PressureWrapper>
+      <div style={{position: 'relative'}}>
+        <ActionButton {...this.props} />
+        <div style={this.styleWithForce(this.props.force)}></div>
+      </div>
     );
   }
 }
 
-export default PressureActionButton;
+export default withPressureWrapper(PressureActionButton, {display: 'inline-block'});

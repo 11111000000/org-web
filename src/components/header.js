@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TitleLine from './title_line';
 import HeaderContent from './header_content';
+import withPressureWrapper from './pressure_wrapper';
 import { rgbaObject, rgbaString } from '../lib/color';
 
 class Header extends Component {
@@ -62,4 +63,4 @@ class Header extends Component {
   }
 };
 
-export default Header;
+export default withPressureWrapper(Header);
