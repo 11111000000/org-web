@@ -36,39 +36,47 @@ class OrgFile extends Component {
       if (touchedElement.attributes['handler-name']) {
         const handlerName = touchedElement.attributes['handler-name'].value;
         if (this[handlerName]) {
-          this[handlerName]();
+          this[handlerName]()();
         }
       }
     };
   }
 
-  handleAdvanceTodoClick(headerId) {
-    this.props.orgActions.advanceTodoState(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+  handleAdvanceTodoClick() {
+    return () => {
+      this.props.orgActions.advanceTodoState(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
+    };
   }
 
   handleAddHeaderClick() {
-    this.props.orgActions.addHeader(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+    return () => {
+      this.props.orgActions.addHeader(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
 
-    this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
-    this.props.orgActions.enterTitleEditMode();
+      this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
+      this.props.orgActions.enterTitleEditMode();
+    };
   }
 
   handleAddTodoHeaderClick() {
-    this.props.orgActions.addHeader(this.props.selectedHeaderId, true);
-    this.props.orgActions.syncChanges();
-    this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
-    this.props.orgActions.enterTitleEditMode();
+    return () => {
+      this.props.orgActions.addHeader(this.props.selectedHeaderId, true);
+      this.props.orgActions.syncChanges();
+      this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
+      this.props.orgActions.enterTitleEditMode();
+    };
   }
 
   handleDoneClick() {
-    if (this.props.inTitleEditMode) {
-      this.props.orgActions.toggleTitleEditMode();
-    }
-    if (this.props.inDescriptionEditMode) {
-      this.props.orgActions.toggleDescriptionEditMode();
-    }
+    return () => {
+      if (this.props.inTitleEditMode) {
+        this.props.orgActions.toggleTitleEditMode();
+      }
+      if (this.props.inDescriptionEditMode) {
+        this.props.orgActions.toggleDescriptionEditMode();
+      }
+    };
   }
 
   handlePushClick() {
@@ -90,51 +98,71 @@ class OrgFile extends Component {
   }
 
   handleUndoClick() {
-    this.props.undoActions.undo();
+    return () => {
+      this.props.undoActions.undo();
+    };
   }
 
   handleTitleEditModeClick() {
-    this.props.orgActions.toggleTitleEditMode();
+    return () => {
+      this.props.orgActions.toggleTitleEditMode();
+    };
   }
 
   handleDescriptionEditModeClick() {
-    this.props.orgActions.toggleDescriptionEditMode();
-    this.props.orgActions.openHeader(this.props.selectedHeaderId);
+    return () => {
+      this.props.orgActions.toggleDescriptionEditMode();
+      this.props.orgActions.openHeader(this.props.selectedHeaderId);
+    };
   }
 
   handleRemoveHeaderClick() {
-    this.props.orgActions.removeHeader(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+    return () => {
+      this.props.orgActions.removeHeader(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
+    };
   }
 
   handleMoveHeaderUpClick() {
-    this.props.orgActions.moveHeaderUp(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+    return () => {
+      this.props.orgActions.moveHeaderUp(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
+    };
   }
 
   handleMoveHeaderDownClick() {
-    this.props.orgActions.moveHeaderDown(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+    return () => {
+      this.props.orgActions.moveHeaderDown(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
+    };
   }
 
   handleMoveHeaderLeftClick() {
-    this.props.orgActions.moveHeaderLeft(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+    return () => {
+      this.props.orgActions.moveHeaderLeft(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
+    };
   }
 
   handleMoveHeaderRightClick() {
-    this.props.orgActions.moveHeaderRight(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+    return () => {
+      this.props.orgActions.moveHeaderRight(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
+    };
   }
 
   handleMoveTreeLeftClick() {
-    this.props.orgActions.moveTreeLeft(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+    return () => {
+      this.props.orgActions.moveTreeLeft(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
+    };
   }
 
   handleMoveTreeRightClick() {
-    this.props.orgActions.moveTreeRight(this.props.selectedHeaderId);
-    this.props.orgActions.syncChanges();
+    return () => {
+      this.props.orgActions.moveTreeRight(this.props.selectedHeaderId);
+      this.props.orgActions.syncChanges();
+    };
   }
 
   handleAddHeaderDeepPressStart() {
@@ -188,16 +216,16 @@ class OrgFile extends Component {
       <div onTouchMove={this.handleActionDrawerTouchMove()}>
         <ActionButton icon={'check'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleAdvanceTodoClick()} />
+                      onClick={this.handleAdvanceTodoClick()} />
         <ActionButton icon={'pencil'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleTitleEditModeClick()} />
+                      onClick={this.handleTitleEditModeClick()} />
         <ActionButton icon={'pencil-square-o'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleDescriptionEditModeClick()} />
+                      onClick={this.handleDescriptionEditModeClick()} />
         <PressureActionButton icon={'plus'}
                               disabled={orgActionsDisabled}
-                              onClick={() => this.handleAddHeaderClick()}
+                              onClick={this.handleAddHeaderClick()}
                               handlerName='handleAddHeaderClick'
                               onTouchEnd={this.handlePressureButtonTouchEnd()}
                               onDeepPressStart={this.handleAddHeaderDeepPressStart()}
@@ -205,35 +233,35 @@ class OrgFile extends Component {
           <div className='sub-actions-container'>
             <ActionButton icon={'check-square-o'}
                           disabled={orgActionsDisabled}
-                          onClick={() => this.handleAddTodoHeaderClick()}
+                          onClick={this.handleAddTodoHeaderClick()}
                           handlerName='handleAddTodoHeaderClick'
                           scale={scale} />
           </div>
         </PressureActionButton>
         <ActionButton icon={'times'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleRemoveHeaderClick()} />
+                      onClick={this.handleRemoveHeaderClick()} />
         <ActionButton icon={'arrow-up'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleMoveHeaderUpClick()} />
+                      onClick={this.handleMoveHeaderUpClick()} />
         <ActionButton icon={'arrow-down'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleMoveHeaderDownClick()} />
+                      onClick={this.handleMoveHeaderDownClick()} />
         <ActionButton icon={'arrow-left'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleMoveHeaderLeftClick()} />
+                      onClick={this.handleMoveHeaderLeftClick()} />
         <ActionButton icon={'arrow-right'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleMoveHeaderRightClick()} />
+                      onClick={this.handleMoveHeaderRightClick()} />
         <ActionButton icon={'chevron-left'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleMoveTreeLeftClick()} />
+                      onClick={this.handleMoveTreeLeftClick()} />
         <ActionButton icon={'chevron-right'}
                       disabled={orgActionsDisabled}
-                      onClick={() => this.handleMoveTreeRightClick()} />
+                      onClick={this.handleMoveTreeRightClick()} />
         <ActionButton icon={'undo'}
                       disabled={this.props.historyCount <= 0}
-                      onClick={() => this.handleUndoClick()} />
+                      onClick={this.handleUndoClick()} />
         {!this.props.liveSync && <ActionButton icon={'cloud-upload'}
                                                disabled={pushPullDisabled}
                                                onClick={() => !pushPullDisabled && this.handlePushClick()} />}
@@ -251,7 +279,7 @@ class OrgFile extends Component {
       actionDrawerContents = () => (
         <button className="btn"
                 style={doneButtonStyle}
-                onClick={() => this.handleDoneClick()}>Done</button>
+                onClick={this.handleDoneClick()}>Done</button>
       );
     }
     const actionDrawer = (
