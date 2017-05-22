@@ -6,19 +6,16 @@ import '../stylesheets/landing.css';
 import sampleFile from '../../sample.org';
 
 class Landing extends Component {
-  constructor(props) {
-    super(props);
-
-    this.viewSampleFile = this.viewSampleFile.bind(this);
-    this.signIn = this.signIn.bind(this);
-  }
-
   viewSampleFile() {
-    this.props.orgActions.displayStatic(sampleFile.trim(), 'Exit sample');
+    return () => {
+      this.props.orgActions.displayStatic(sampleFile.trim(), 'Exit sample');
+    };
   }
 
   signIn() {
-    this.props.signIn();
+    return () => {
+      this.props.signIn();
+    };
   }
 
   render() {
@@ -30,8 +27,8 @@ class Landing extends Component {
         <h2 className="landing-tagline landing-tagline--subheader">Syncs with Dropbox.</h2>
 
         <div className="buttons-container">
-          <button className="btn landing-button sample-file-button" onClick={() => this.viewSampleFile()}>View sample</button>
-          <button className="btn landing-button sign-in-landing-button" onClick={() => this.signIn()}>Sign in</button>
+          <button className="btn landing-button sample-file-button" onClick={this.viewSampleFile()}>View sample</button>
+          <button className="btn landing-button sign-in-landing-button" onClick={this.signIn()}>Sign in</button>
         </div>
       </div>
     );

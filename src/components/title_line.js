@@ -8,10 +8,6 @@ import '../stylesheets/title_line.css';
 class TitleLine extends Component {
   constructor(props) {
     super(props);
-    this.handleTitleClick = this.handleTitleClick.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleTitleFieldClick = this.handleTitleFieldClick.bind(this);
-    this.handleTextareaBlur = this.handleTextareaBlur.bind(this);
 
     this.state = {
       titleValue: this.getTitleValue()
@@ -42,23 +38,25 @@ class TitleLine extends Component {
   }
 
   handleTitleClick() {
-    if (this.props.hasContent && (!this.props.opened || this.props.isSelected)) {
-      this.props.actions.toggleHeaderOpened(this.props.headerId);
-    }
+    return () => {
+      if (this.props.hasContent && (!this.props.opened || this.props.isSelected)) {
+        this.props.actions.toggleHeaderOpened(this.props.headerId);
+      }
 
-    this.props.actions.selectHeader(this.props.headerId);
+      this.props.actions.selectHeader(this.props.headerId);
+    };
   }
 
-  handleTitleChange(event) {
-    this.setState({ ...this.state, titleValue: event.target.value });
+  handleTitleChange() {
+    return event => this.setState({ ...this.state, titleValue: event.target.value });
   }
 
-  handleTitleFieldClick(event) {
-    event.stopPropagation();
+  handleTitleFieldClick() {
+    return event => event.stopPropagation();
   }
 
   handleTextareaBlur() {
-    this.props.actions.toggleTitleEditMode();
+    return () => this.props.actions.toggleTitleEditMode();
   }
 
   handleTextareaFocus() {
@@ -104,14 +102,14 @@ class TitleLine extends Component {
                         className="textarea"
                         rows="2"
                         value={this.state.titleValue}
-                        onBlur={() => this.handleTextareaBlur()}
+                        onBlur={this.handleTextareaBlur()}
                         onFocus={this.handleTextareaFocus()}
-                        onChange={this.handleTitleChange}
-                        onClick={(event) => this.handleTitleFieldClick(event)} />;
+                        onChange={this.handleTitleChange()}
+                        onClick={this.handleTitleFieldClick()} />;
     }
 
     return (
-      <div className="title-line" onClick={() => this.handleTitleClick()}>
+      <div className="title-line" onClick={this.handleTitleClick()}>
         <div className="header-text">
           {todo} {title}
         </div>

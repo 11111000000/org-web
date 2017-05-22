@@ -4,38 +4,35 @@ import { connect } from 'react-redux';
 import * as dropboxActions from '../actions/dropbox';
 
 class FileChooser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.handleFileClick = this.handleFileClick.bind(this);
-    this.handleParentDirectoryClick = this.handleParentDirectoryClick.bind(this);
-  }
-
   componentDidMount() {
     this.props.actions.getFileList(this.props.currentDirectoryPath);
   }
 
   handleFileClick(fileId) {
-    const selectedFile = this.props.currentDirectoryListing.filter(file => file.get('id') === fileId).get(0);
+    return () => {
+      const selectedFile = this.props.currentDirectoryListing.filter(file => file.get('id') === fileId).get(0);
 
-    if (selectedFile.get('directory')) {
-      this.props.actions.getFileList(selectedFile.get('path'));
-    } else {
-      this.props.actions.downloadFile(selectedFile.get('path'));
-    }
+      if (selectedFile.get('directory')) {
+        this.props.actions.getFileList(selectedFile.get('path'));
+      } else {
+        this.props.actions.downloadFile(selectedFile.get('path'));
+      }
+    };
   }
 
   handleParentDirectoryClick() {
-    const pathParts = this.props.currentDirectoryPath.split('/');
-    const parentPath = pathParts.slice(0, pathParts.length - 1).join('/');
-    this.props.actions.getFileList(parentPath);
+    return () => {
+      const pathParts = this.props.currentDirectoryPath.split('/');
+      const parentPath = pathParts.slice(0, pathParts.length - 1).join('/');
+      this.props.actions.getFileList(parentPath);
+    };
   }
 
   render() {
     let fileList = this.props.currentDirectoryListing.map((file, index) => {
       const isDirectory = file.get('directory');
       return (
-        <li className="file-list-element" key={index} onClick={() => this.handleFileClick(file.get('id'))}>
+        <li className="file-list-element" key={index} onClick={this.handleFileClick(file.get('id'))}>
           {file.get('name')}{isDirectory ? '/' : ''}
         </li>
       );
@@ -46,7 +43,7 @@ class FileChooser extends Component {
       directoryPath = '/';
     } else {
       const parentDirectoryListing = (
-        <li className="file-list-element" key={-1} onClick={() => this.handleParentDirectoryClick()}>
+        <li className="file-list-element" key={-1} onClick={this.handleParentDirectoryClick()}>
           ..
         </li>
       );

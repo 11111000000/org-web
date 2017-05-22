@@ -18,11 +18,15 @@ class OrgWeb extends Component {
   }
 
   handleBackToFileChooser() {
-    this.props.orgActions.stopDisplayingFile();
+    return () => {
+      this.props.orgActions.stopDisplayingFile();
+    };
   }
 
   exitStaticFileMode() {
-    this.props.orgActions.exitStaticFileMode();
+    return () => {
+      this.props.orgActions.exitStaticFileMode();
+    };
   }
 
   render() {
@@ -35,7 +39,7 @@ class OrgWeb extends Component {
 
     const nonStaticFileModeButtons = (
       <div>
-        <button onClick={() => this.handleBackToFileChooser()}
+        <button onClick={this.handleBackToFileChooser()}
                 className="btn btn--wide">Back to file chooser</button>
       </div>
     );
@@ -44,7 +48,7 @@ class OrgWeb extends Component {
       <div>
         <br />
         <br />
-        <button onClick={() => this.exitStaticFileMode()} className="btn btn--wide">
+        <button onClick={this.exitStaticFileMode()} className="btn btn--wide">
           {this.props.exitButtonTitle}
         </button>
       </div>

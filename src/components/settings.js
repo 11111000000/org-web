@@ -10,32 +10,32 @@ class Settings extends Component {
   constructor(props) {
     super(props);
 
-    this.handleLiveSyncClick = this.handleLiveSyncClick.bind(this);
     this.handleFontSizeSelection = this.handleFontSizeSelection.bind(this);
     this.handleBulletStyleSelection = this.handleBulletStyleSelection.bind(this);
     this.handleHeaderSpacingSelection = this.handleHeaderSpacingSelection.bind(this);
-    this.handleSignOut = this.handleSignOut.bind(this);
   }
 
   handleLiveSyncClick() {
-    this.props.dropboxActions.setLiveSync(!this.props.liveSyncToDropbox);
+    return () => this.props.dropboxActions.setLiveSync(!this.props.liveSyncToDropbox);
   }
 
-  handleFontSizeSelection(size) {
-    this.props.orgActions.setFontSize(size);
+  handleFontSizeSelection() {
+    return size => this.props.orgActions.setFontSize(size);
   }
 
-  handleBulletStyleSelection(style) {
-    this.props.orgActions.setBulletStyle(style);
+  handleBulletStyleSelection() {
+    return style => this.props.orgActions.setBulletStyle(style);
   }
 
-  handleHeaderSpacingSelection(spacing) {
-    this.props.orgActions.setHeaderSpacing(spacing);
+  handleHeaderSpacingSelection() {
+    return spacing => this.props.orgActions.setHeaderSpacing(spacing);
   }
 
   handleSignOut() {
-    this.props.dropboxActions.signOut();
-    this.props.settingsClose();
+    return () => {
+      this.props.dropboxActions.signOut();
+      this.props.settingsClose();
+    };
   }
 
   render() {
@@ -57,25 +57,25 @@ class Settings extends Component {
         <div style={Object.assign(firstSettingStyle, settingStyle)}>
           <div>Live sync</div>
           <Switch enabled={this.props.liveSyncToDropbox}
-                  toggle={() => this.handleLiveSyncClick()} />
+                  toggle={this.handleLiveSyncClick()} />
         </div>
         <div style={settingStyle}>
           <div>Font size</div>
           <TabButtons buttons={['Regular', 'Large']}
                       selected={this.props.fontSize}
-                      buttonSelected={size => this.handleFontSizeSelection(size)} />
+                      buttonSelected={this.handleFontSizeSelection()} />
         </div>
         <div style={settingStyle}>
           <div>Bullet style</div>
           <TabButtons buttons={['Classic', 'Fancy']}
                       selected={this.props.bulletStyle}
-                      buttonSelected={style => this.handleBulletStyleSelection(style)} />
+                      buttonSelected={this.handleBulletStyleSelection()} />
         </div>
         <div style={settingStyle}>
           <div>Header spacing</div>
           <TabButtons buttons={['Cozy', 'Spacious']}
                       selected={this.props.headerSpacing}
-                      buttonSelected={spacing => this.handleHeaderSpacingSelection(spacing)} />
+                      buttonSelected={this.handleHeaderSpacingSelection()} />
         </div>
 
         <br />
@@ -83,7 +83,7 @@ class Settings extends Component {
         <br />
         <br />
 
-        <button onClick={() => this.handleSignOut()}
+        <button onClick={this.handleSignOut()}
                 style={{margin: 10}}
                 className="btn btn--wide">Sign out</button>
 
@@ -91,7 +91,7 @@ class Settings extends Component {
 
         <button style={{margin: 10}}
                 className="btn btn--wide"
-                onClick={() => this.props.settingsClose()}>Close</button>
+                onClick={this.props.settingsClose}>Close</button>
       </div>
     );
   }

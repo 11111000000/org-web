@@ -23,7 +23,7 @@ class Switch extends Component {
           return (
             <div className={`switch`}
                  style={{backgroundColor: rgbaString(rgba)}}
-                 onClick={() => this.props.toggle()}>
+                 onClick={this.props.toggle}>
               <Motion style={grabberStyle}>
                 {style => <div className={`switch__grabber`} style={style}></div>}
               </Motion>
