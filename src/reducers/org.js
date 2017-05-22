@@ -274,13 +274,16 @@ const moveHeaderDown = (state, payload) => {
 };
 
 const selectNextSiblingHeader = (state, payload) => {
-  // TODO: Account for the case where the header doesn't have a next sibling.
-
   const headers = state.get('headers');
+  const header = headerWithId(headers, payload.headerId);
   const headerIndex = indexOfHeaderWithId(headers, payload.headerId);
   const subheaders = subheadersOfHeaderWithId(headers, payload.headerId);
 
   const nextSibling = headers.get(headerIndex + subheaders.size + 1);
+
+  if (!nextSibling || nextSibling.get('nestingLevel') !== header.get('nestingLevel')) {
+    return state;
+  }
 
   return state.set('selectedHeaderId', nextSibling.get('id'));
 };

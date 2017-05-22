@@ -122,6 +122,7 @@ class OrgFile extends Component {
 
   handleRemoveHeaderClick() {
     return () => {
+      this.props.orgActions.selectNextSiblingHeader(this.props.selectedHeaderId);
       this.props.orgActions.removeHeader(this.props.selectedHeaderId);
       this.props.orgActions.syncChanges();
     };
