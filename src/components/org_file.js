@@ -30,6 +30,10 @@ class OrgFile extends Component {
   // where the touch actually ended, and trigger the appropriate action accordingly.
   handlePressureButtonTouchEnd() {
     return event => {
+      if (!this.props.subActionsVisible) {
+        return;
+      }
+
       const { clientX, clientY } = event.changedTouches[0];
       const touchedElement = document.elementFromPoint(clientX, clientY);
 
