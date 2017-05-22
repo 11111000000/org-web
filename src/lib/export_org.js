@@ -20,6 +20,9 @@ const exportOrg = (headers, todoKeywordSets) => {
     }
 
     if (header.description) {
+      if (!header.rawDescription.startsWith('\n')) {
+        contents += '\n';
+      }
       contents += header.rawDescription;
     }
 
