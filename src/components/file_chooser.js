@@ -31,9 +31,17 @@ class FileChooser extends Component {
   render() {
     let fileList = this.props.currentDirectoryListing.map((file, index) => {
       const isDirectory = file.get('directory');
+
+      let icon = 'file-o';
+      if (isDirectory) {
+        icon = 'folder-o';
+      } else if (file.get('name').trim().endsWith('.org')) {
+        icon = 'file-text';
+      }
+
       return (
         <li className="file-list-element" key={index} onClick={this.handleFileClick(file.get('id'))}>
-          {file.get('name')}{isDirectory ? '/' : ''}
+          <i className={`fa fa-${icon}`} /> {file.get('name')}{isDirectory ? '/' : ''}
         </li>
       );
     });
@@ -44,7 +52,7 @@ class FileChooser extends Component {
     } else {
       const parentDirectoryListing = (
         <li className="file-list-element" key={-1} onClick={this.handleParentDirectoryClick()}>
-          ..
+          <i className={'fa fa-folder-o'} /> ..
         </li>
       );
       fileList = [parentDirectoryListing].concat(fileList);
