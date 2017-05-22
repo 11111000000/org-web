@@ -1,3 +1,5 @@
+* May 21st, 2017
+** Added some schnazzy (sp?) icons to the file chooser
 * May 20th, 2017
 ** Added force touch/3d touch on devices that support it
 *** Force push the add header button (+) to reveal a new button that adds a new TODO header
