@@ -134,7 +134,7 @@ const openHeader = (state, payload) => {
   const headers = state.get('headers');
   const headerIndex = indexOfHeaderWithId(headers, payload.headerId);
 
-  return state.set(['headers', headerIndex, 'opened'], true);
+  return state.setIn(['headers', headerIndex, 'opened'], true);
 };
 
 const addHeader = (state, payload) => {
