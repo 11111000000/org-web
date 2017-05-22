@@ -83,9 +83,9 @@ class Settings extends Component {
         <br />
         <br />
 
-        <button onClick={this.handleSignOut()}
-                style={{margin: 10}}
-                className="btn btn--wide">Sign out</button>
+        {this.props.signedIn && <button onClick={this.handleSignOut()}
+                                          style={{margin: 10}}
+                                          className="btn btn--wide">Sign out</button>}
 
         <br />
 
@@ -102,7 +102,8 @@ function mapStateToProps(state, props) {
     liveSyncToDropbox: state.dropbox.get('liveSync'),
     fontSize: state.org.present.get('fontSize'),
     bulletStyle: state.org.present.get('bulletStyle'),
-    headerSpacing: state.org.present.get('headerSpacing')
+    headerSpacing: state.org.present.get('headerSpacing'),
+    signedIn: state.dropbox.get('dropboxAccessToken')
   };
 }
 
