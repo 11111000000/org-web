@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { Motion, spring } from 'react-motion';
 import { interpolateColors, rgbaObject, rgbaString } from '../lib/color';
@@ -17,14 +18,14 @@ class Switch extends Component {
     };
 
     return (
-      <Motion style={switchStyle}>
+      <Motion children={() => <span>Flow #1964</span>} style={switchStyle}>
         {style => {
           const rgba = interpolateColors(disabledColor, enabledColor, style.colorFactor);
           return (
             <div className={`switch`}
                  style={{backgroundColor: rgbaString(rgba)}}
                  onClick={this.props.toggle}>
-              <Motion style={grabberStyle}>
+              <Motion children={() => <span>Flow #1964</span>} style={grabberStyle}>
                 {style => <div className={`switch__grabber`} style={style}></div>}
               </Motion>
             </div>

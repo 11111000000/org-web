@@ -1,9 +1,11 @@
+// @flow
 // Interpolates between two colors.
 // colorA and colorB should be objects with keys {r, g, b, a}.
 // interpolationFactor should be a number between 0 and 1 representing how far from colorA to
 // colorB it should interpolate.
 // An object with keys {r, g, b, a} will be returned.
-export const interpolateColors = (colorA, colorB, interpolationFactor) => {
+/*:: type rgbaObjectType = {r:number, g:number, b:number, a:number}; */
+export const interpolateColors = (colorA/*:rgbaObjectType*/, colorB/*:rgbaObjectType*/, interpolationFactor/*:number*/) => {
   return {
     r: parseInt((colorB.r - colorA.r) * interpolationFactor + colorA.r, 10),
     g: parseInt((colorB.g - colorA.g) * interpolationFactor + colorA.g, 10),
@@ -12,10 +14,10 @@ export const interpolateColors = (colorA, colorB, interpolationFactor) => {
   };
 };
 
-export const rgbaObject = (r, g, b, a) => {
+export const rgbaObject = (r/*:number*/, g/*:number*/, b/*:number*/, a/*:number*/)/*:rgbaObjectType*/ => {
   return {r, g, b, a};
 };
 
-export const rgbaString = rgba => {
+export const rgbaString = (rgba/*:rgbaObjectType*/) => {
   return `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
 };
