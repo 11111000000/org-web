@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -37,10 +38,14 @@ class OrgFile extends Component {
       const { clientX, clientY } = event.changedTouches[0];
       const touchedElement = document.elementFromPoint(clientX, clientY);
 
-      if (touchedElement.attributes['handler-name']) {
-        const handlerName = touchedElement.attributes['handler-name'].value;
-        if (this[handlerName]) {
-          this[handlerName]()();
+      if (touchedElement.attributes.getNamedItem('handler-name')) {
+        const handlerName = touchedElement.attributes.getNamedItem('handler-name').value;
+
+        // Hack to get around the fact that Flow doesn't yet support indexable signatures on
+        // classes (https://github.com/facebook/flow/issues/1323)
+        const orgFileObject/*:Object*/ = this;
+        if (orgFileObject[handlerName]) {
+          orgFileObject[handlerName]()();
         }
       }
     };
@@ -288,7 +293,7 @@ class OrgFile extends Component {
       );
     }
     const actionDrawer = (
-      <Motion style={animatedActionDrawerStyles}>
+      <Motion children={() => <span>Flow #1964</span>} style={animatedActionDrawerStyles}>
         {animatedStyles => (
           <div style={Object.assign(actionDrawerStyle, animatedStyles)} className="nice-scroll">
             {actionDrawerContents(animatedStyles.scale)}

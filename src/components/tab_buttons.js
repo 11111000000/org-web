@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import '../stylesheets/tab_buttons.css';
 

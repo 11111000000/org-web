@@ -1,3 +1,4 @@
+// @flow
 /* globals Dropbox, process */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
@@ -9,14 +10,6 @@ import FileChooser from './file_chooser';
 import OrgFile from './org_file';
 
 class OrgWeb extends Component {
-  constructor(props) {
-    super(props);
-    this.handleBackToFileChooser = this.handleBackToFileChooser.bind(this);
-    this.exitStaticFileMode = this.exitStaticFileMode.bind(this);
-
-    this.state = {};
-  }
-
   handleBackToFileChooser() {
     return () => {
       this.props.orgActions.stopDisplayingFile();

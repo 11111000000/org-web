@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -7,14 +8,6 @@ import * as dropboxActions from '../actions/dropbox';
 import * as orgActions from '../actions/org';
 
 class Settings extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleFontSizeSelection = this.handleFontSizeSelection.bind(this);
-    this.handleBulletStyleSelection = this.handleBulletStyleSelection.bind(this);
-    this.handleHeaderSpacingSelection = this.handleHeaderSpacingSelection.bind(this);
-  }
-
   handleLiveSyncClick() {
     return () => this.props.dropboxActions.setLiveSync(!this.props.liveSyncToDropbox);
   }
@@ -54,7 +47,7 @@ class Settings extends Component {
     };
     return (
       <div>
-        <div style={Object.assign(firstSettingStyle, settingStyle)}>
+        <div style={Object.assign({}, firstSettingStyle, settingStyle)}>
           <div>Live sync</div>
           <Switch enabled={this.props.liveSyncToDropbox}
                   toggle={this.handleLiveSyncClick()} />

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import ActionButton from './action_button';
 import withPressureWrapper from './pressure_wrapper';

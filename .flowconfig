@@ -5,3 +5,4 @@
 [libs]
 
 [options]
+module.name_mapper.extension='org' -> '<PROJECT_ROOT>/flow/stub/OrgModulesStub.js'

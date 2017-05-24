@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -5,6 +6,8 @@ import * as orgActions from '../actions/org';
 import Header from './header';
 
 class HeaderList extends Component {
+  /*:: headerRefs: {[refName: string]: HTMLElement } */
+
   constructor() {
     super();
 
@@ -16,7 +19,8 @@ class HeaderList extends Component {
     const selectedHeaderDiv = this.headerRefs[nextProps.selectedHeaderId];
     if (selectedHeaderDiv) {
       const boundingRectangle = selectedHeaderDiv.getBoundingClientRect();
-      const viewportHeight = document.documentElement.clientHeight;
+      const documentElement = document.documentElement;
+      const viewportHeight = documentElement ? documentElement.clientHeight : 0;
 
       if (boundingRectangle.top > viewportHeight * 0.9 || boundingRectangle.bottom < 0) {
         selectedHeaderDiv.scrollIntoView();

@@ -1,8 +1,17 @@
+// @flow
 import React, { Component } from 'react';
 import Pressure from 'pressure';
 
-const withPressureWrapper = (WrappedComponent, wrapperStyle) => {
+const withPressureWrapper = (WrappedComponent/*:ReactClass<any>*/, wrapperStyle/*::?: {}*/) => {
   return class extends Component {
+    /*::
+      state: {
+        force: number,
+        deepPressActive: boolean
+      };
+      containerDiv: HTMLDivElement
+    */
+
     constructor() {
       super();
 

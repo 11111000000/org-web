@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -5,10 +6,14 @@ import AttributedString from './attributed_string';
 import * as orgActions from '../actions/org';
 
 class HeaderContent extends Component {
+  /*::
+    state: {
+      descriptionValue: string
+    };
+   */
+
   constructor(props) {
     super(props);
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-    this.handleTextareaBlur = this.handleTextareaBlur.bind(this);
 
     this.state = { descriptionValue: props.rawDescription };
   }
@@ -20,12 +25,12 @@ class HeaderContent extends Component {
     }
   }
 
-  handleDescriptionChange(event) {
-    this.setState({ ...this.state, descriptionValue: event.target.value });
+  handleDescriptionChange() {
+    return event => this.setState({ ...this.state, descriptionValue: event.target.value });
   }
 
   handleTextareaBlur() {
-    this.props.actions.toggleDescriptionEditMode();
+    return () => this.props.actions.toggleDescriptionEditMode();
   }
 
   render() {
@@ -39,8 +44,8 @@ class HeaderContent extends Component {
                               className="textarea"
                               rows="8"
                               value={this.state.descriptionValue}
-                              onBlur={() => this.handleTextareaBlur()}
-                              onChange={this.handleDescriptionChange} />;
+                              onBlur={this.handleTextareaBlur()}
+                              onChange={this.handleDescriptionChange()} />;
     }
 
     return (

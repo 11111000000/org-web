@@ -1,7 +1,12 @@
+// @flow
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 class ActionButton extends Component {
+  /*::
+    button: HTMLButtonElement
+   */
+
   componentDidMount() {
     // A hack to try to mimic the iOSy behavior of pressing the button that a deep press ends
     // on, instead of the button that the deep press began on. If a handlerName prop is
@@ -11,7 +16,9 @@ class ActionButton extends Component {
 
     if (handlerName) {
       const buttonElement = ReactDOM.findDOMNode(this.button);
-      buttonElement.setAttribute('handler-name', handlerName);
+      if (buttonElement && buttonElement instanceof HTMLElement) {
+        buttonElement.setAttribute('handler-name', handlerName);
+      }
     }
   }
 

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -6,6 +7,12 @@ import * as orgActions from '../actions/org';
 import '../stylesheets/title_line.css';
 
 class TitleLine extends Component {
+  /*::
+    state: {
+      titleValue?: string
+    }
+   */
+
   constructor(props) {
     super(props);
 

@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import TitleLine from './title_line';
 import HeaderContent from './header_content';
