@@ -1,4 +1,5 @@
-/* globals Dropbox, process */
+// @flow
+/* global Dropbox, process */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -17,12 +18,12 @@ import parseQueryString from './lib/parse_query_string';
 import changelogFile from '../changelog.org';
 
 class App extends Component {
+  /*::
+    state: { showingSettings: boolean }
+   */
+
   constructor(props) {
     super(props);
-    this.handleSettingsClick = this.handleSettingsClick.bind(this);
-    this.handleSettingsClose = this.handleSettingsClose.bind(this);
-    this.handleSignInClick = this.handleSignInClick.bind(this);
-    this.handleChangelogClick = this.handleChangelogClick.bind(this);
 
     this.state = {
       showingSettings: false
@@ -53,33 +54,42 @@ class App extends Component {
   }
 
   handleSettingsClick() {
-    this.setState({ showingSettings: !this.state.showingSettings });
+    return () => this.setState({ showingSettings: !this.state.showingSettings });
   }
 
   handleSettingsClose() {
-    this.setState({ showingSettings: false });
+    return () => this.setState({ showingSettings: false });
   }
 
   handleSignInClick() {
-    const dropbox = new Dropbox({ clientId: process.env.REACT_APP_DROPBOX_CLIENT_ID });
-    const authUrl = dropbox.getAuthenticationUrl(window.location.href);
-    window.location = authUrl;
+    return () => {
+      /*::
+        declare class Dropbox {
+          getAuthenticationUrl:(string) => string
+        }
+       */
+      const dropbox = new Dropbox({ clientId: process.env.REACT_APP_DROPBOX_CLIENT_ID });
+      const authUrl = dropbox.getAuthenticationUrl(window.location.href);
+      window.location = authUrl;
+    };
   }
 
   handleChangelogClick() {
-    this.props.orgActions.displayStatic(changelogFile.trim(), 'Done');
-    this.props.orgActions.setNewVersion(false);
+    return () => {
+      this.props.orgActions.displayStatic(changelogFile.trim(), 'Done');
+      this.props.orgActions.setNewVersion(false);
+    };
   }
 
   render() {
     let mainComponent = <OrgWeb />;
     if (this.state.showingSettings) {
-      mainComponent = <Settings settingsClose={() => this.handleSettingsClose()} />;
+      mainComponent = <Settings settingsClose={this.handleSettingsClose()} />;
     } else if (!this.props.dropboxAccessToken && !this.props.staticFileMode) {
-      mainComponent = <Landing signIn={() => this.handleSignInClick()} />;
+      mainComponent = <Landing signIn={this.handleSignInClick()} />;
     }
 
-    let changelogButtonStyle = {
+    let changelogButtonStyle/*:{ color: string, marginLeft: string | number }*/ = {
       color: 'white',
       marginLeft: 'auto'
     };
@@ -90,7 +100,7 @@ class App extends Component {
       changelogButtonStyle.color = '#ff3838';
     }
     const changelogButton = (
-      <div style={changelogButtonStyle} onClick={() => this.handleChangelogClick()}>
+      <div style={changelogButtonStyle} onClick={this.handleChangelogClick()}>
         <i className="fa fa-gift"></i>
       </div>
     );
@@ -110,7 +120,7 @@ class App extends Component {
         color: 'white'
       };
       settingsButton = (
-        <div style={settingsButtonStyle} onClick={() => this.handleSettingsClick()}>
+        <div style={settingsButtonStyle} onClick={this.handleSettingsClick()}>
           <i className="fa fa-cogs"></i>
         </div>
       );
@@ -128,7 +138,7 @@ class App extends Component {
     const largeFont = this.props.fontSize === 'Large';
 
     return (
-      <div className={`app-container ${largeFont && 'app-container--large-font'}`}>
+      <div className={`app-container ${largeFont ? 'app-container--large-font' : ''}`}>
         <div className="app-header">
           <img className="logo" src={logo} alt="Logo" />
           <h2 className="app-header__title">org-web</h2>

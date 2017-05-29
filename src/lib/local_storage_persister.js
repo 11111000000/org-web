@@ -1,5 +1,7 @@
+// @flow
 /* globals localStorage */
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
+/*:: import type { Store } from 'redux'; */
 
 const localStorageAvailable = () => {
   try {
@@ -83,7 +85,7 @@ export const readInitialState = () => {
 };
 
 // Persist some fields to localStorage.
-export const subscribeToChanges = storeInstance => {
+export const subscribeToChanges = (storeInstance/*:Store*/) => {
   return () => {
     if (!localStorageAvailable()) {
       return;

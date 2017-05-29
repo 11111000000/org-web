@@ -1,7 +1,8 @@
-import Immutable from 'immutable';
+// @flow
+import * as Immutable from 'immutable';
 
 // Accepts a raw string description and returns a list of objects representing it.
-export const parseLinks = (description) => {
+export const parseLinks = (description/*: string*/) => {
   // Match strings containing either [[uri]] or [[uri][title]].
   const linkRegex = /(\[\[([^\]]*)\]\]|\[\[([^\]]*)\]\[([^\]]*)\]\])/g;
   let matches = [];
@@ -39,7 +40,16 @@ export const parseLinks = (description) => {
     }
 
     // Add the link part.
-    let linkPart = {
+    /*::
+      type linkPartType = {
+        type: string,
+        contents: {
+          uri: string,
+          title?: string
+        }
+      }
+     */
+    let linkPart/*: linkPartType*/ = {
       type: 'link',
       contents: {
         uri: match.uri
@@ -71,7 +81,7 @@ const defaultKeywordSets = Immutable.fromJS([{
   default: true
 }]);
 
-export const parseTitleLine = (titleLine, todoKeywordSets) => {
+export const parseTitleLine = (titleLine/*: string*/, todoKeywordSets) => {
   const allKeywords = todoKeywordSets.flatMap(todoKeywordSet => {
     return todoKeywordSet.get('keywords');
   });
@@ -97,7 +107,7 @@ export const parseTitleLine = (titleLine, todoKeywordSets) => {
   return Immutable.fromJS({ title, rawTitle, todoKeyword, tags });
 };
 
-export const newHeaderWithTitle = (line, nestingLevel, todoKeywordSets) => {
+export const newHeaderWithTitle = (line/*: string*/, nestingLevel/*: number*/, todoKeywordSets) => {
   if (todoKeywordSets.size === 0) {
     todoKeywordSets = defaultKeywordSets;
   }
@@ -113,7 +123,7 @@ export const newHeaderWithTitle = (line, nestingLevel, todoKeywordSets) => {
   });
 };
 
-const parseOrg = (fileContents) => {
+const parseOrg = (fileContents/*: string*/) => {
   let headers = new Immutable.List();
   const lines = fileContents.split('\n');
 
@@ -128,7 +138,8 @@ const parseOrg = (fileContents) => {
       const title = line.substr(nestingLevel + 1);
       headers = headers.push(newHeaderWithTitle(title, nestingLevel, todoKeywordSets));
     } else {
-      if (headers.size === 0) {
+      const numHeaders = headers.size;
+      if (numHeaders === 0) {
         if (line.startsWith('#+TODO: ') || line.startsWith('#+TYP_TODO: ')) {
           const keywordsString = line.substr(line.indexOf(':') + 2);
           const keywordStrings = keywordsString.split(/\s/).filter(keyword => {

@@ -1,6 +1,7 @@
-import Immutable from 'immutable';
+// @flow
+import * as Immutable from 'immutable';
 
-export default (state = new Immutable.Map(), payload) => {
+export default (state = new Immutable.Map(), payload/*:Object*/) => {
   if (state.get('currentDirectoryListing') === undefined) {
     state = state.set('currentDirectoryListing', new Immutable.List());
   }

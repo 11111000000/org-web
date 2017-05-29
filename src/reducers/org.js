@@ -1,15 +1,22 @@
-import Immutable from 'immutable';
+// @flow
+import * as Immutable from 'immutable';
 import * as parseOrg from '../lib/parse_org';
 
-const indexOfHeaderWithId = (headers, headerId) => {
+/*::
+  type HeaderList = Immutable.List<Immutable.Map<*, *>>;
+  type State = Immutable.Map<string, *>;
+  type HeaderId = Array<number>;
+*/
+
+const indexOfHeaderWithId = (headers/*:HeaderList*/, headerId) => {
   return headers.findIndex(header => header.get('id') === headerId);
 };
 
-const headerWithId = (headers, headerId) => {
+const headerWithId = (headers/*:HeaderList*/, headerId) => {
   return headers.get(indexOfHeaderWithId(headers, headerId));
 };
 
-const subheadersOfHeaderWithId = (headers, headerId) => {
+const subheadersOfHeaderWithId = (headers/*:HeaderList*/, headerId) => {
   const header = headerWithId(headers, headerId);
   const headerIndex = indexOfHeaderWithId(headers, headerId);
 
@@ -25,7 +32,7 @@ const subheadersOfHeaderWithId = (headers, headerId) => {
   }
 };
 
-const directParentIdOfHeaderWithId = (headers, headerId) => {
+const directParentIdOfHeaderWithId = (headers/*:HeaderList*/, headerId) => {
   const header = headerWithId(headers, headerId);
   const headerIndex = indexOfHeaderWithId(headers, headerId);
 
@@ -44,7 +51,8 @@ const directParentIdOfHeaderWithId = (headers, headerId) => {
   return null;
 };
 
-const openDirectParent = (state, headerId) => {
+const openDirectParent = (state/*:State*/, headerId) => {
+  const headers/*:HeaderList*/ = state.get('headers');
   const parentHeaderId = directParentIdOfHeaderWithId(state.get('headers'), headerId);
   if (parentHeaderId !== null) {
     const parentHeaderIndex = indexOfHeaderWithId(state.get('headers'), parentHeaderId);

@@ -1,5 +1,6 @@
-const parseQueryString = (str) => {
-  var ret = Object.create(null);
+// @flow
+const parseQueryString = (str/*:string */) => {
+  var ret/*:{access_token?: string} */ = {};
 
   if (typeof str !== 'string') {
     return ret;

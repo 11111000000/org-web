@@ -1,4 +1,6 @@
-const exportOrg = (headers, todoKeywordSets) => {
+// @flow
+/*:: import type { List, Map } from 'immutable' */
+const exportOrg = (headers/*:List<Map<any, any>>*/, todoKeywordSets/*:List<Map<any, any>>*/) => {
   let configContent = '';
   if (!todoKeywordSets.get(0).get('default')) {
     configContent = todoKeywordSets.map(todoKeywordSet => {

@@ -1,10 +1,32 @@
-/* globals Dropbox, FileReader */
+// @flow
+/*globals Dropbox, FileReader*/
 import { displayFile, stopDisplayingFile, setDirty } from './org';
 import { setLoadingMessage } from './base';
 import exportOrg from '../lib/export_org';
+/*:: import * as Immutable from 'immutable' */
 
-export const pushBackup = filePath => {
-  return (dispatch, getState) => {
+/*::
+  type Action = {
+    +type: string
+  };
+  type State = {
+    dropbox: Immutable.Map<*, *>,
+    org: {
+      present: Immutable.Map<*, *>
+    }
+  };
+  type GetState = () => State;
+  type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
+  type PromiseAction = Promise<Action>;
+  type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
+  declare class Dropbox {
+    filesUpload:(Object) => Promise<any>;
+    filesDownload:(Object) => Promise<any>;
+    filesListFolder:(Object) => Promise<any>;
+  }
+*/
+export const pushBackup = (filePath/*:string */) => {
+  return (dispatch/*:Dispatch */, getState/*:GetState */) => {
     const dropbox = new Dropbox({ accessToken: getState().dropbox.get('dropboxAccessToken') });
     dropbox.filesUpload({
       path: filePath + '.org-web-bak',
@@ -17,8 +39,8 @@ export const pushBackup = filePath => {
   };
 };
 
-export const downloadFile = (filePath) => {
-  return (dispatch, getState) => {
+export const downloadFile = (filePath/*:string */) => {
+  return (dispatch/*:Dispatch */, getState/*:GetState */) => {
     const dropbox = new Dropbox({ accessToken: getState().dropbox.get('dropboxAccessToken') });
 
     dispatch(setLoadingMessage('Downloading file...'));
@@ -36,7 +58,7 @@ export const downloadFile = (filePath) => {
   };
 };
 
-export const authenticate = (accessToken) => {
+export const authenticate = (accessToken/*:string */) => {
   return {
     type: 'authenticate',
     accessToken
@@ -49,7 +71,7 @@ export const unauthenticate = () => {
   };
 };
 
-export const setLiveSync = (liveSync) => {
+export const setLiveSync = (liveSync/*:bool */) => {
   return {
     type: 'setLiveSync',
     liveSync
@@ -57,13 +79,13 @@ export const setLiveSync = (liveSync) => {
 };
 
 export const signOut = () => {
-  return (dispatch, getState) => {
+  return (dispatch/*:Dispatch */, getState/*:GetState */) => {
     dispatch(stopDisplayingFile());
     dispatch(unauthenticate());
   };
 };
 
-export const setDirectoryListing = (directoryPath, directoryListing) => {
+export const setDirectoryListing = (directoryPath/*:string */, directoryListing/*:Array<Object> */) => {
   return {
     type: 'setDirectoryListing',
     directoryPath,
@@ -71,8 +93,8 @@ export const setDirectoryListing = (directoryPath, directoryListing) => {
   };
 };
 
-export const getFileList = (path = '') => {
-  return (dispatch, getState) => {
+export const getFileList = (path/*:string */ = '') => {
+  return (dispatch/*:Dispatch */, getState/*:GetState */) => {
     const dropbox = new Dropbox({ accessToken: getState().dropbox.get('dropboxAccessToken') });
 
     dispatch(setLoadingMessage('Getting listing...'));
@@ -95,8 +117,8 @@ export const getFileList = (path = '') => {
   };
 };
 
-export const push = (filePath) => {
-  return (dispatch, getState) => {
+export const push = (filePath/*:string */) => {
+  return (dispatch/*:Dispatch */, getState/*:GetState */) => {
     const contents = exportOrg(getState().org.present.get('headers'),
                                getState().org.present.get('todoKeywordSets'));
 

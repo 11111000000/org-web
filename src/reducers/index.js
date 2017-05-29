@@ -1,3 +1,4 @@
+// @flow
 import org from './org';
 import dropbox from './dropbox';
 import base from './base';
