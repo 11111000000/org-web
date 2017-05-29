@@ -1,4 +1,4 @@
-/* globals Dropbox, FileReader */
+/* global Dropbox, FileReader */
 import { displayFile, stopDisplayingFile, setDirty } from './org';
 import { setLoadingMessage } from './base';
 import exportOrg from '../lib/export_org';
