@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class AttributedString extends Component {
+class AttributedString extends PureComponent {
   render() {
     const parts = this.props.parts.map(part => {
       if (part.type === 'text') {

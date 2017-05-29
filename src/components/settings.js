@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Switch from './switch';
@@ -6,7 +6,7 @@ import TabButtons from './tab_buttons';
 import * as dropboxActions from '../actions/dropbox';
 import * as orgActions from '../actions/org';
 
-class Settings extends Component {
+class Settings extends PureComponent {
   constructor(props) {
     super(props);
 

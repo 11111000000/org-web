@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AttributedString from './attributed_string';
 import * as orgActions from '../actions/org';
 
-class HeaderContent extends Component {
+class HeaderContent extends PureComponent {
   constructor(props) {
     super(props);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);

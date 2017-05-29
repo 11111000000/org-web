@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AttributedString from './attributed_string';
 import * as orgActions from '../actions/org';
 import '../stylesheets/title_line.css';
 
-class TitleLine extends Component {
+class TitleLine extends PureComponent {
   constructor(props) {
     super(props);
 

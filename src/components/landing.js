@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as orgActions from '../actions/org';
 import '../stylesheets/landing.css';
 import sampleFile from '../../sample.org';
 
-class Landing extends Component {
+class Landing extends PureComponent {
   viewSampleFile() {
     return () => {
       this.props.orgActions.displayStatic(sampleFile.trim(), 'Exit sample');

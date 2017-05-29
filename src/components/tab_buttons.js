@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import '../stylesheets/tab_buttons.css';
 
-class TabButtons extends Component {
+class TabButtons extends PureComponent {
   render() {
     const buttons = this.props.buttons.map((title, index) => {
       let className = 'tab-buttons__button';

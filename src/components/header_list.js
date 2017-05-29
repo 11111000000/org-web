@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as orgActions from '../actions/org';
 import Header from './header';
 
-class HeaderList extends Component {
+class HeaderList extends PureComponent {
   constructor() {
     super();
 

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Motion, spring } from 'react-motion';
 import { interpolateColors, rgbaObject, rgbaString } from '../lib/color';
 import '../stylesheets/switch.css';
 
-class Switch extends Component {
+class Switch extends PureComponent {
   render() {
 
     const disabledColor = rgbaObject(255, 255, 255, 1);

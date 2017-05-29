@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as dropboxActions from '../actions/dropbox';
 
-class FileChooser extends Component {
+class FileChooser extends PureComponent {
   componentDidMount() {
     this.props.actions.getFileList(this.props.currentDirectoryPath);
   }

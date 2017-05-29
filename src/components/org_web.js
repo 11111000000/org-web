@@ -1,5 +1,5 @@
 /* globals Dropbox, process */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as dropboxActions from '../actions/dropbox';
@@ -8,7 +8,7 @@ import * as baseActions from '../actions/base';
 import FileChooser from './file_chooser';
 import OrgFile from './org_file';
 
-class OrgWeb extends Component {
+class OrgWeb extends PureComponent {
   constructor(props) {
     super(props);
     this.handleBackToFileChooser = this.handleBackToFileChooser.bind(this);

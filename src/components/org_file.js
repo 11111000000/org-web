@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as orgActions from '../actions/org';
@@ -9,7 +9,7 @@ import ActionButton from './action_button';
 import PressureActionButton from './pressure_action_button';
 import { Motion, spring } from 'react-motion';
 
-class OrgFile extends Component {
+class OrgFile extends PureComponent {
   componentDidMount() {
     // Send a no-op action to take care of the bug where redux-undo won't allow the first
     // action to be undone.

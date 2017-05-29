@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 
-class ActionButton extends Component {
+class ActionButton extends PureComponent {
   componentDidMount() {
     // A hack to try to mimic the iOSy behavior of pressing the button that a deep press ends
     // on, instead of the button that the deep press began on. If a handlerName prop is

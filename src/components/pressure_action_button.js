@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ActionButton from './action_button';
 import withPressureWrapper from './pressure_wrapper';
 
-class PressureActionButton extends Component {
+class PressureActionButton extends PureComponent {
   componentWillReceiveProps(newProps) {
     if (newProps.deepPressActive && !this.props.deepPressActive) {
       this.props.onDeepPressStart();
