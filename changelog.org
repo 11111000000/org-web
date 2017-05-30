@@ -1,3 +1,6 @@
+* May 29th, 2017
+** Added setting to enable tapping the TODO label to advance the TODO state
+** Fixed export bug that caused blank descriptions to be exported as a newline
 * May 21st, 2017
 ** Added some schnazzy (sp?) icons to the file chooser
 * May 20th, 2017
