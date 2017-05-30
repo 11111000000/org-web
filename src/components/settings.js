@@ -19,6 +19,10 @@ class Settings extends PureComponent {
     return () => this.props.dropboxActions.setLiveSync(!this.props.liveSyncToDropbox);
   }
 
+  handleTapTodoToAdvanceClick() {
+    return () => this.props.orgActions.setTapTodoToAdvance(!this.props.tapTodoToAdvance);
+  }
+
   handleFontSizeSelection() {
     return size => this.props.orgActions.setFontSize(size);
   }
@@ -77,6 +81,11 @@ class Settings extends PureComponent {
                       selected={this.props.headerSpacing}
                       buttonSelected={this.handleHeaderSpacingSelection()} />
         </div>
+        <div style={settingStyle}>
+          <div>Tap TODO to advance state</div>
+          <Switch enabled={this.props.tapTodoToAdvance}
+                  toggle={this.handleTapTodoToAdvanceClick()} />
+        </div>
 
         <br />
         <br />
@@ -100,6 +109,7 @@ class Settings extends PureComponent {
 function mapStateToProps(state, props) {
   return {
     liveSyncToDropbox: state.dropbox.get('liveSync'),
+    tapTodoToAdvance: state.org.present.get('tapTodoToAdvance'),
     fontSize: state.org.present.get('fontSize'),
     bulletStyle: state.org.present.get('bulletStyle'),
     headerSpacing: state.org.present.get('headerSpacing'),

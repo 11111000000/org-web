@@ -195,6 +195,13 @@ export const setHeaderSpacing = spacing => {
   };
 };
 
+export const setTapTodoToAdvance = tapTodoToAdvance => {
+  return {
+    type: 'setTapTodoToAdvance',
+    tapTodoToAdvance
+  };
+};
+
 export const setLatestVersion = latestVersion => {
   return {
     type: 'setLatestVersion',

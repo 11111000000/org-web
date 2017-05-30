@@ -51,6 +51,17 @@ class TitleLine extends PureComponent {
     return event => this.setState({ ...this.state, titleValue: event.target.value });
   }
 
+  handleTodoClick() {
+    if (this.props.tapTodoToAdvance) {
+      return event => {
+        event.stopPropagation();
+        this.props.actions.advanceTodoState(this.props.headerId);
+      };
+    } else {
+      return () => {};
+    }
+  }
+
   handleTitleFieldClick() {
     return event => event.stopPropagation();
   }
@@ -71,7 +82,7 @@ class TitleLine extends PureComponent {
     if (todoKeyword && !this.props.editMode) {
       const todoClasses = ['todo-keyword', `todo-keyword--${todoKeyword.toLowerCase()}`];
       todo = (
-        <span className={todoClasses.join(' ')}>
+        <span className={todoClasses.join(' ')} onClick={this.handleTodoClick()}>
           {todoKeyword}
         </span>
       );
@@ -120,7 +131,8 @@ class TitleLine extends PureComponent {
 
 function mapStateToProps(state, props) {
   return {
-    isSelected: state.org.present.get('selectedHeaderId') === props.headerId
+    isSelected: state.org.present.get('selectedHeaderId') === props.headerId,
+    tapTodoToAdvance: state.org.present.get('tapTodoToAdvance')
   };
 }
 

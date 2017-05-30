@@ -1,4 +1,4 @@
-/* globals localStorage */
+/* global localStorage */
 import Immutable from 'immutable';
 
 const localStorageAvailable = () => {
@@ -30,6 +30,11 @@ const fields = [
     category: 'org',
     name: 'headerSpacing',
     type: 'nullable'
+  },
+  {
+    category: 'org',
+    name: 'tapTodoToAdvance',
+    type: 'boolean'
   },
   {
     category: 'org',

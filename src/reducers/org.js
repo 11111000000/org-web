@@ -313,6 +313,10 @@ const setHeaderSpacing = (state, payload) => {
   return state.set('headerSpacing', payload.spacing);
 };
 
+const setTapTodoToAdvance = (state, payload) => {
+  return state.set('tapTodoToAdvance', payload.tapTodoToAdvance);
+};
+
 const setLatestVersion = (state, payload) => {
   return state.set('latestVersion', payload.latestVersion);
 };
@@ -400,6 +404,8 @@ export default (state = new Immutable.Map(), payload) => {
     return setBulletStyle(state, payload);
   case 'setHeaderSpacing':
     return setHeaderSpacing(state, payload);
+  case 'setTapTodoToAdvance':
+    return setTapTodoToAdvance(state, payload);
   case 'setLatestVersion':
     return setLatestVersion(state, payload);
   case 'setNewVersion':
