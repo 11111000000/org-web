@@ -9,7 +9,7 @@ const headerWithId = (headers, headerId) => {
   return headers.get(indexOfHeaderWithId(headers, headerId));
 };
 
-const subheadersOfHeaderWithId = (headers, headerId) => {
+export const subheadersOfHeaderWithId = (headers, headerId) => {
   const header = headerWithId(headers, headerId);
   const headerIndex = indexOfHeaderWithId(headers, headerId);
 

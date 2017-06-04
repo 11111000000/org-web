@@ -1,5 +1,6 @@
 /* global localStorage */
 import Immutable from 'immutable';
+import { subheadersOfHeaderWithId } from '../reducers/org';
 
 const localStorageAvailable = () => {
   try {
@@ -87,12 +88,42 @@ export const readInitialState = () => {
   };
 };
 
+// For the given Immutable.List of headers, return an array paths to all open headers, where
+// a path is an array of rawTitle's.
+const getOpenHeaderPaths = headers => {
+  let openedHeaders = [];
+  for (let i = 0; i < headers.size; ++i) {
+    const header = headers.get(i);
+    if (!header.get('opened')) {
+      continue;
+    }
+
+    const title = header.getIn(['titleLine', 'rawTitle']);
+
+    const subheaders = subheadersOfHeaderWithId(headers, header.get('id'));
+    const openSubheaderPaths = getOpenHeaderPaths(subheaders);
+
+    if (openSubheaderPaths.length > 0) {
+      openSubheaderPaths.forEach(openedSubheaderPath => {
+        openedHeaders.push([title].concat(openedSubheaderPath));
+      });
+    } else {
+      openedHeaders.push([title]);
+    }
+
+    i += subheaders.size;
+  }
+
+  return openedHeaders;
+};
+
 // Persist some fields to localStorage.
 export const subscribeToChanges = storeInstance => {
   if (!localStorageAvailable()) {
     return () => {};
   } else {
     return () => {
+      // Persist fields listed above.
       const state = storeInstance.getState();
 
       fields.filter(f => f.category === 'org').map(f => f.name).forEach(field => {
@@ -101,6 +132,10 @@ export const subscribeToChanges = storeInstance => {
       fields.filter(f => f.category === 'dropbox').map(f => f.name).forEach(field => {
         localStorage.setItem(field, state.dropbox.get(field));
       });
+
+      // Persist header openness state.
+      const openHeaderPaths = getOpenHeaderPaths(state.org.present.get('headers') || []);
+      console.log("openHeaderPaths = ", openHeaderPaths);
     };
   }
 };
