@@ -338,6 +338,10 @@ const applyOpennessState = (state, payload) => {
   return state.set('headers', headers);
 };
 
+const setOpennessState = (state, payload) => {
+  return state.set('opennessState', Immutable.fromJS(payload.opennessState));
+};
+
 const stopDisplayingFile = (state, payload) => {
   return state.set('filePath', null).set('fileContents', null).set('headers', null);
 };
@@ -429,6 +433,8 @@ export default (state = new Immutable.Map(), payload) => {
     return displayFile(state, payload);
   case 'applyOpennessState':
     return applyOpennessState(state, payload);
+  case 'setOpennessState':
+    return setOpennessState(state, payload);
   case 'displayStaticFile':
     const parsedFile = parseOrg.default(payload.staticFileContents);
     return state.set('fileContents', payload.staticFileContents)

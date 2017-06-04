@@ -1,4 +1,5 @@
 import { push } from './dropbox';
+import { readOpennessState } from '../lib/local_storage_persister';
 
 export const addHeader = (headerId, withTodo = false) => {
   return {
@@ -30,9 +31,22 @@ export const displayFile = (fileContents, filePath) => {
   };
 };
 
+export const setOpennessState = (opennessState) => {
+  return {
+    type: 'setOpennessState',
+    opennessState
+  };
+};
+
 export const applyOpennessState = () => {
   return {
     type: 'applyOpennessState'
+  };
+};
+
+export const reloadOpennessState = () => {
+  return dispatch => {
+    dispatch(setOpennessState(readOpennessState()));
   };
 };
 

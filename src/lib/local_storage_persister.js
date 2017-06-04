@@ -54,6 +54,12 @@ const fields = [
   }
 ];
 
+export const readOpennessState = () => {
+  // Read in header openness state.
+  const opennessStateJSONString = localStorage.getItem('headerOpenness');
+  return opennessStateJSONString ? JSON.parse(opennessStateJSONString) : null;
+};
+
 // Read initial state from localStorage.
 export const readInitialState = () => {
   if (!localStorageAvailable()) {
@@ -79,9 +85,8 @@ export const readInitialState = () => {
   });
 
   // Read in header openness state.
-  const opennessStateJSONString = localStorage.getItem('headerOpenness');
-  if (opennessStateJSONString) {
-    const opennessState = JSON.parse(opennessStateJSONString);
+  const opennessState = readOpennessState();
+  if (opennessState) {
     initialState.org = initialState.org.set('opennessState', Immutable.fromJS(opennessState));
   }
 
