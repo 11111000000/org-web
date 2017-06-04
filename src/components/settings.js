@@ -23,6 +23,10 @@ class Settings extends PureComponent {
     return () => this.props.orgActions.setTapTodoToAdvance(!this.props.tapTodoToAdvance);
   }
 
+  handlePreserveHeaderOpennessClick() {
+    return () => this.props.orgActions.setPreserveHeaderOpenness(!this.props.preserveHeaderOpenness);
+  }
+
   handleFontSizeSelection() {
     return size => this.props.orgActions.setFontSize(size);
   }
@@ -52,6 +56,9 @@ class Settings extends PureComponent {
       borderBottom: '1px solid #D8D8D8',
       padding: '5px 0'
     };
+    const labelStyle = {
+      maxWidth: 'calc(100% - 90px)'
+    };
     const firstSettingStyle = {
       borderTop: '1px solid #D8D8D8',
       marginTop: 10
@@ -59,32 +66,37 @@ class Settings extends PureComponent {
     return (
       <div>
         <div style={Object.assign(firstSettingStyle, settingStyle)}>
-          <div>Live sync</div>
+          <div style={labelStyle}>Live sync</div>
           <Switch enabled={this.props.liveSyncToDropbox}
                   toggle={this.handleLiveSyncClick()} />
         </div>
         <div style={settingStyle}>
-          <div>Font size</div>
+          <div style={labelStyle}>Font size</div>
           <TabButtons buttons={['Regular', 'Large']}
                       selected={this.props.fontSize}
                       buttonSelected={this.handleFontSizeSelection()} />
         </div>
         <div style={settingStyle}>
-          <div>Bullet style</div>
+          <div style={labelStyle}>Bullet style</div>
           <TabButtons buttons={['Classic', 'Fancy']}
                       selected={this.props.bulletStyle}
                       buttonSelected={this.handleBulletStyleSelection()} />
         </div>
         <div style={settingStyle}>
-          <div>Header spacing</div>
+          <div style={labelStyle}>Header spacing</div>
           <TabButtons buttons={['Cozy', 'Spacious']}
                       selected={this.props.headerSpacing}
                       buttonSelected={this.handleHeaderSpacingSelection()} />
         </div>
         <div style={settingStyle}>
-          <div>Tap TODO to advance state</div>
+          <div style={labelStyle}>Tap TODO to advance state</div>
           <Switch enabled={this.props.tapTodoToAdvance}
                   toggle={this.handleTapTodoToAdvanceClick()} />
+        </div>
+        <div style={settingStyle}>
+          <div style={labelStyle}>Preserve open headers across reloads</div>
+          <Switch enabled={this.props.preserveHeaderOpenness}
+                  toggle={this.handlePreserveHeaderOpennessClick()} />
         </div>
 
         <br />
@@ -110,6 +122,7 @@ function mapStateToProps(state, props) {
   return {
     liveSyncToDropbox: state.dropbox.get('liveSync'),
     tapTodoToAdvance: state.org.present.get('tapTodoToAdvance'),
+    preserveHeaderOpenness: state.org.present.get('preserveHeaderOpenness'),
     fontSize: state.org.present.get('fontSize'),
     bulletStyle: state.org.present.get('bulletStyle'),
     headerSpacing: state.org.present.get('headerSpacing'),

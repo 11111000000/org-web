@@ -89,6 +89,7 @@ class OrgFile extends PureComponent {
 
   handlePullClick() {
     const pull = () => {
+      this.props.orgActions.reloadOpennessState();
       this.props.dropboxActions.downloadFile(this.props.filePath);
     };
 

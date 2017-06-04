@@ -1,5 +1,6 @@
 /* global localStorage */
 import Immutable from 'immutable';
+import { subheadersOfHeaderWithId } from '../reducers/org';
 
 const localStorageAvailable = () => {
   try {
@@ -38,6 +39,11 @@ const fields = [
   },
   {
     category: 'org',
+    name: 'preserveHeaderOpenness',
+    type: 'boolean'
+  },
+  {
+    category: 'org',
     name: 'latestVersion',
     type: 'nullable'
   },
@@ -52,6 +58,12 @@ const fields = [
     type: 'nullable'
   }
 ];
+
+export const readOpennessState = () => {
+  // Read in header openness state.
+  const opennessStateJSONString = localStorage.getItem('headerOpenness');
+  return opennessStateJSONString ? JSON.parse(opennessStateJSONString) : null;
+};
 
 // Read initial state from localStorage.
 export const readInitialState = () => {
@@ -77,6 +89,12 @@ export const readInitialState = () => {
     initialState[field.category] = initialState[field.category].set(field.name, value);
   });
 
+  // Read in header openness state.
+  const opennessState = readOpennessState();
+  if (opennessState) {
+    initialState.org = initialState.org.set('opennessState', Immutable.fromJS(opennessState));
+  }
+
   return {
     dropbox: initialState.dropbox,
     org: {
@@ -87,20 +105,65 @@ export const readInitialState = () => {
   };
 };
 
-// Persist some fields to localStorage.
-export const subscribeToChanges = storeInstance => {
-  return () => {
-    if (!localStorageAvailable()) {
-      return;
+// For the given Immutable.List of headers, return an array paths to all open headers, where
+// a path is an array of rawTitle's.
+const getOpenHeaderPaths = headers => {
+  let openedHeaders = [];
+  for (let i = 0; i < headers.size; ++i) {
+    const header = headers.get(i);
+    if (!header.get('opened')) {
+      continue;
     }
 
-    const state = storeInstance.getState();
+    const title = header.getIn(['titleLine', 'rawTitle']);
 
-    fields.filter(f => f.category === 'org').map(f => f.name).forEach(field => {
-      localStorage.setItem(field, state.org.present.get(field));
-    });
-    fields.filter(f => f.category === 'dropbox').map(f => f.name).forEach(field => {
-      localStorage.setItem(field, state.dropbox.get(field));
-    });
-  };
+    const subheaders = subheadersOfHeaderWithId(headers, header.get('id'));
+    const openSubheaderPaths = getOpenHeaderPaths(subheaders);
+
+    if (openSubheaderPaths.length > 0) {
+      openSubheaderPaths.forEach(openedSubheaderPath => {
+        openedHeaders.push([title].concat(openedSubheaderPath));
+      });
+    } else {
+      openedHeaders.push([title]);
+    }
+
+    i += subheaders.size;
+  }
+
+  return openedHeaders;
+};
+
+// Persist some fields to localStorage.
+export const subscribeToChanges = storeInstance => {
+  if (!localStorageAvailable()) {
+    return () => {};
+  } else {
+    return () => {
+      // Persist fields from the array above.
+      const state = storeInstance.getState();
+
+      fields.filter(f => f.category === 'org').map(f => f.name).forEach(field => {
+        localStorage.setItem(field, state.org.present.get(field));
+      });
+      fields.filter(f => f.category === 'dropbox').map(f => f.name).forEach(field => {
+        localStorage.setItem(field, state.dropbox.get(field));
+      });
+
+      // Persist header openness state if we've got a file open.
+      const currentFilePath = state.org.present.get('filePath');
+      if (currentFilePath && state.org.present.get('headers')) {
+        const openHeaderPaths = getOpenHeaderPaths(state.org.present.get('headers'));
+
+        let opennessState = {};
+        const opennessStateJSONString = localStorage.getItem('headerOpenness');
+        if (opennessStateJSONString) {
+          opennessState = JSON.parse(opennessStateJSONString);
+        }
+
+        opennessState[currentFilePath] = openHeaderPaths;
+        localStorage.setItem('headerOpenness', JSON.stringify(opennessState));
+      }
+    };
+  }
 };
