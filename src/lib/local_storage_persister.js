@@ -134,8 +134,19 @@ export const subscribeToChanges = storeInstance => {
       });
 
       // Persist header openness state.
-      const openHeaderPaths = getOpenHeaderPaths(state.org.present.get('headers') || []);
-      console.log("openHeaderPaths = ", openHeaderPaths);
+      const currentFilePath = state.org.present.get('filePath');
+      if (currentFilePath) {
+        const openHeaderPaths = getOpenHeaderPaths(state.org.present.get('headers') || []);
+
+        const opennessStateString = localStorage.getItem('headerOpenness');
+        let opennessState = {};
+        if (opennessStateString) {
+          opennessState = JSON.parse(opennessStateString);
+        }
+
+        opennessState[currentFilePath] = openHeaderPaths;
+        localStorage.setItem('headerOpenness', JSON.stringify(opennessState));
+      }
     };
   }
 };
