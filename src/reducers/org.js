@@ -306,6 +306,10 @@ const openHeaderWithPath = (headers, headerPath) => {
   const headerIndex = headers.findIndex(header => {
     return header.getIn(['titleLine', 'rawTitle']) === firstTitle;
   });
+  if (headerIndex === -1) {
+    return headers;
+  }
+
   headers = headers.update(headerIndex, header => header.set('opened', true));
 
   let subheaders = subheadersOfHeaderWithId(headers, headers.getIn([headerIndex, 'id']));
