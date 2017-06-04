@@ -30,6 +30,12 @@ export const displayFile = (fileContents, filePath) => {
   };
 };
 
+export const applyOpennessState = () => {
+  return {
+    type: 'applyOpennessState'
+  };
+};
+
 export const enterStaticFileMode = (exitButtonTitle) => {
   return {
     type: 'enterStaticFileMode',

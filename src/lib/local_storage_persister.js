@@ -78,6 +78,13 @@ export const readInitialState = () => {
     initialState[field.category] = initialState[field.category].set(field.name, value);
   });
 
+  // Read in header openness state.
+  const opennessStateJSONString = localStorage.getItem('headerOpenness');
+  if (opennessStateJSONString) {
+    const opennessState = JSON.parse(opennessStateJSONString);
+    initialState.org = initialState.org.set('opennessState', Immutable.fromJS(opennessState));
+  }
+
   return {
     dropbox: initialState.dropbox,
     org: {
@@ -123,7 +130,7 @@ export const subscribeToChanges = storeInstance => {
     return () => {};
   } else {
     return () => {
-      // Persist fields listed above.
+      // Persist fields from the array above.
       const state = storeInstance.getState();
 
       fields.filter(f => f.category === 'org').map(f => f.name).forEach(field => {
@@ -133,15 +140,15 @@ export const subscribeToChanges = storeInstance => {
         localStorage.setItem(field, state.dropbox.get(field));
       });
 
-      // Persist header openness state.
+      // Persist header openness state if we've got a file open.
       const currentFilePath = state.org.present.get('filePath');
-      if (currentFilePath) {
-        const openHeaderPaths = getOpenHeaderPaths(state.org.present.get('headers') || []);
+      if (currentFilePath && state.org.present.get('headers')) {
+        const openHeaderPaths = getOpenHeaderPaths(state.org.present.get('headers'));
 
-        const opennessStateString = localStorage.getItem('headerOpenness');
         let opennessState = {};
-        if (opennessStateString) {
-          opennessState = JSON.parse(opennessStateString);
+        const opennessStateJSONString = localStorage.getItem('headerOpenness');
+        if (opennessStateJSONString) {
+          opennessState = JSON.parse(opennessStateJSONString);
         }
 
         opennessState[currentFilePath] = openHeaderPaths;

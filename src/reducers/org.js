@@ -297,6 +297,47 @@ const displayFile = (state, payload) => {
     .set('todoKeywordSets', parsedFile.get('todoKeywordSets'));
 };
 
+const openHeaderWithPath = (headers, headerPath) => {
+  if (headerPath.size === 0) {
+    return headers;
+  }
+
+  const firstTitle = headerPath.first();
+  const headerIndex = headers.findIndex(header => {
+    return header.getIn(['titleLine', 'rawTitle']) === firstTitle;
+  });
+  headers = headers.update(headerIndex, header => header.set('opened', true));
+
+  let subheaders = subheadersOfHeaderWithId(headers, headers.getIn([headerIndex, 'id']));
+  subheaders = openHeaderWithPath(subheaders, headerPath.rest());
+
+  headers = headers
+    .take(headerIndex + 1)
+    .concat(subheaders)
+    .concat(headers.takeLast(headers.size - (headerIndex + 1 + subheaders.size)));
+
+  return headers;
+};
+
+const applyOpennessState = (state, payload) => {
+  const opennessState = state.get('opennessState');
+  if (!opennessState) {
+    return state;
+  }
+
+  const fileOpennessState = opennessState.get(state.get('filePath'));
+  if (!fileOpennessState || fileOpennessState.size === 0) {
+    return state;
+  }
+
+  let headers = state.get('headers');
+  fileOpennessState.forEach(openHeaderPath => {
+    headers = openHeaderWithPath(headers, openHeaderPath);
+  });
+
+  return state.set('headers', headers);
+};
+
 const stopDisplayingFile = (state, payload) => {
   return state.set('filePath', null).set('fileContents', null).set('headers', null);
 };
@@ -386,6 +427,8 @@ export default (state = new Immutable.Map(), payload) => {
     return state.set('dirty', payload.dirty);
   case 'displayFile':
     return displayFile(state, payload);
+  case 'applyOpennessState':
+    return applyOpennessState(state, payload);
   case 'displayStaticFile':
     const parsedFile = parseOrg.default(payload.staticFileContents);
     return state.set('fileContents', payload.staticFileContents)

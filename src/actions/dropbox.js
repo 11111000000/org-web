@@ -1,5 +1,5 @@
 /* global Dropbox, FileReader */
-import { displayFile, stopDisplayingFile, setDirty } from './org';
+import { displayFile, stopDisplayingFile, setDirty, applyOpennessState } from './org';
 import { setLoadingMessage } from './base';
 import exportOrg from '../lib/export_org';
 
@@ -27,6 +27,7 @@ export const downloadFile = (filePath) => {
       reader.addEventListener('loadend', () => {
         const contents = reader.result;
         dispatch(displayFile(contents, filePath));
+        dispatch(applyOpennessState());
         dispatch(setDirty(false));
         dispatch(setLoadingMessage(null));
         dispatch(pushBackup(filePath));
