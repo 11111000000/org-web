@@ -89,18 +89,18 @@ export const readInitialState = () => {
 
 // Persist some fields to localStorage.
 export const subscribeToChanges = storeInstance => {
-  return () => {
-    if (!localStorageAvailable()) {
-      return;
-    }
+  if (!localStorageAvailable()) {
+    return () => {};
+  } else {
+    return () => {
+      const state = storeInstance.getState();
 
-    const state = storeInstance.getState();
-
-    fields.filter(f => f.category === 'org').map(f => f.name).forEach(field => {
-      localStorage.setItem(field, state.org.present.get(field));
-    });
-    fields.filter(f => f.category === 'dropbox').map(f => f.name).forEach(field => {
-      localStorage.setItem(field, state.dropbox.get(field));
-    });
-  };
+      fields.filter(f => f.category === 'org').map(f => f.name).forEach(field => {
+        localStorage.setItem(field, state.org.present.get(field));
+      });
+      fields.filter(f => f.category === 'dropbox').map(f => f.name).forEach(field => {
+        localStorage.setItem(field, state.dropbox.get(field));
+      });
+    };
+  }
 };
