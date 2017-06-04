@@ -39,6 +39,11 @@ const fields = [
   },
   {
     category: 'org',
+    name: 'preserveHeaderOpenness',
+    type: 'boolean'
+  },
+  {
+    category: 'org',
     name: 'latestVersion',
     type: 'nullable'
   },

@@ -362,6 +362,10 @@ const setTapTodoToAdvance = (state, payload) => {
   return state.set('tapTodoToAdvance', payload.tapTodoToAdvance);
 };
 
+const setPreserveHeaderOpenness = (state, payload) => {
+  return state.set('preserveHeaderOpenness', payload.preserveHeaderOpenness);
+};
+
 const setLatestVersion = (state, payload) => {
   return state.set('latestVersion', payload.latestVersion);
 };
@@ -455,6 +459,8 @@ export default (state = new Immutable.Map(), payload) => {
     return setHeaderSpacing(state, payload);
   case 'setTapTodoToAdvance':
     return setTapTodoToAdvance(state, payload);
+  case 'setPreserveHeaderOpenness':
+    return setPreserveHeaderOpenness(state, payload);
   case 'setLatestVersion':
     return setLatestVersion(state, payload);
   case 'setNewVersion':

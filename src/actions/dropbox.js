@@ -27,7 +27,9 @@ export const downloadFile = (filePath) => {
       reader.addEventListener('loadend', () => {
         const contents = reader.result;
         dispatch(displayFile(contents, filePath));
-        dispatch(applyOpennessState());
+        if (getState().org.present.get('preserveHeaderOpenness')) {
+          dispatch(applyOpennessState());
+        }
         dispatch(setDirty(false));
         dispatch(setLoadingMessage(null));
         dispatch(pushBackup(filePath));

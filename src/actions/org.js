@@ -222,6 +222,13 @@ export const setTapTodoToAdvance = tapTodoToAdvance => {
   };
 };
 
+export const setPreserveHeaderOpenness = preserveHeaderOpenness => {
+  return {
+    type: 'setPreserveHeaderOpenness',
+    preserveHeaderOpenness
+  };
+};
+
 export const setLatestVersion = latestVersion => {
   return {
     type: 'setLatestVersion',
