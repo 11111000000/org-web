@@ -1,3 +1,5 @@
+* June 3rd, 2017
+** Added setting to preserve open headers across reloads
 * May 29th, 2017
 ** Added setting to enable tapping the TODO label to advance the TODO state
 ** Fixed export bug that caused blank descriptions to be exported as a newline
