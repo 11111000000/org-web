@@ -130,7 +130,7 @@ class App extends Component {
     return (
       <div className={`app-container ${largeFont && 'app-container--large-font'}`}>
         <div className="app-header">
-          <img className="logo" src={logo} alt="Logo" />
+          <img className="logo" src={logo} alt="Logo" width="45" height="45" />
           <h2 className="app-header__title">org-web</h2>
           {signInButton}
           {changelogButton}
