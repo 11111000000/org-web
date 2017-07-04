@@ -297,14 +297,16 @@ const displayFile = (state, payload) => {
     .set('todoKeywordSets', parsedFile.get('todoKeywordSets'));
 };
 
-const openHeaderWithPath = (headers, headerPath) => {
+const openHeaderWithPath = (headers, headerPath, maxNestingLevel = 1) => {
   if (headerPath.size === 0) {
     return headers;
   }
 
   const firstTitle = headerPath.first();
   const headerIndex = headers.findIndex(header => {
-    return header.getIn(['titleLine', 'rawTitle']) === firstTitle;
+    const rawTitle = header.getIn(['titleLine', 'rawTitle']);
+    const nestingLevel = header.get('nestingLevel');
+    return rawTitle === firstTitle && nestingLevel <= maxNestingLevel;
   });
   if (headerIndex === -1) {
     return headers;
@@ -313,7 +315,7 @@ const openHeaderWithPath = (headers, headerPath) => {
   headers = headers.update(headerIndex, header => header.set('opened', true));
 
   let subheaders = subheadersOfHeaderWithId(headers, headers.getIn([headerIndex, 'id']));
-  subheaders = openHeaderWithPath(subheaders, headerPath.rest());
+  subheaders = openHeaderWithPath(subheaders, headerPath.rest(), maxNestingLevel + 1);
 
   headers = headers
     .take(headerIndex + 1)
