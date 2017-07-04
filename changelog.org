@@ -1,3 +1,5 @@
+* July 4th, 2017
+** Fixed bug with preserving header openness state across reloads
 * June 3rd, 2017
 ** Added setting to preserve open headers across reloads
 * May 29th, 2017
